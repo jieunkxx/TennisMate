@@ -8,9 +8,9 @@ import java.util.*;
 
 public class Court {
 
-   private String courtName;               // court name
-   private Collection<Player> players;     // list of players assigned to this court
-   private Collection<Coach> coaches;
+    private String courtName;               // court name
+    private Collection<Player> players;     // list of players assigned to this court
+    private Collection<Coach> coaches;
 
     //REQUIRES: courtName has a non-zero length
     //EFFECTS: constructs court with given name, courtName, and empty player list.
