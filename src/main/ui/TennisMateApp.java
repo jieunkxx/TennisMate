@@ -4,13 +4,14 @@ import model.Location;
 import model.users.Coach;
 import model.users.Player;
 import model.courts.Court;
+import model.users.User;
 
-import java.io.File;
 import java.util.*;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class TennisMateApp {
+
+    private static final String JSON_STORE = "./data/user.json";
 
     //private static final String LOCATION_NAME = "Vancouver";
     private static final String UBC_COURT_NAME = "UBC";
@@ -22,12 +23,13 @@ public class TennisMateApp {
     private Court court;
     private Player player;
     private Coach coach;
-    private Player loginUser;
+    private User user;
+    private User loginUser;
     private int userId;
     private String userName;
     private Collection<Integer> userIdList;
     private Collection<String> userNameList;
-    private Collection<Player> userList;
+    private Collection<User> userList;
     //private List<String> userInfo;
 
     private Scanner input;
@@ -93,6 +95,8 @@ public class TennisMateApp {
         userNameList = new HashSet<>();
         userList = new HashSet<>();
         runProgram = true;
+        //jsonWriter = new JsonWriter(JSON_STORE);
+        //jsonReader = new JsonReader(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -129,14 +133,24 @@ public class TennisMateApp {
         System.out.println("\n ========== SignUp to Tennis Mate  ========== ");
         System.out.println("\nSelect User Type:");
         System.out.println("\tEnter 'p' -> player");
-        //System.out.println("\tc -> coach");
+        System.out.println("\tEnter 'c' -> coach");
+    }
+
+    private String userType() {
+        String userType = getUserInputString();
+        if (!userType.equals("p") && !userType.equals("c")) {
+            System.out.println("Input Invalid. Please choose 'p' or 'b'");
+            userType();
+        }
+        return userType;
     }
 
     // code referred TellerApp & FitLifeGymChain
     // MODIFIES: this
     // EFFECTS: signup for new user
     private void doSignUp() {
-        String userType = "p";
+        printSignUpPage();
+        String userType = userType();
         System.out.println("\nEnter User Name:");
         userName = getUserInputString();
         if (userNameList.contains(userName)) {
@@ -146,16 +160,14 @@ public class TennisMateApp {
             int userId = generateId();
             userNameList.add(userName);
             userIdList.add(userId);
-            String type = "";
             if (userType.equals("p")) {
-                type = "player";
-                player = new Player(userId, userName);
-                userList.add(player);
+                user = new Player(userId, userName);
             } else if (userType.equals("c")) {
-                coach = new Coach(userId, userName);
-                type = "coach";
+                user = new Coach(userId, userName);
             }
-            System.out.println("\nSignUp Completed. user Name : " + userName + " (usertype: " + type + ")");
+            userList.add(user);
+            System.out.println("\nSignUp Completed.");
+            System.out.println("user Name : " + userName + " (usertype: " + user.getType() + ")");
         }
     }
 
@@ -164,15 +176,14 @@ public class TennisMateApp {
     private void doLogIn() {
         System.out.println("\nLogin: Press your userName");
         String userName = getUserInputString();
-
         if (!userNameList.contains(userName)) {
             System.out.println("userName not founded");
             System.out.println("Move to SignUp...");
             doSignUp();
         }
-        for (Player p : userList) {
-            if (p.getUserName().equals(userName)) {
-                loginUser = p;
+        for (User u : userList) {
+            if (u.getUserName().equals(userName)) {
+                loginUser = u;
             }
         }
         mainPage();
@@ -333,15 +344,20 @@ public class TennisMateApp {
         System.out.println("Enter 'remove' to remove court");
         System.out.println("Enter 'menu' to see User menu");
         String cmd = getUserInputString();
-        if (cmd.equals("add")) {
-            addCourt();
-        } else if (cmd.equals("remove")) {
-            removeCourt();
-        } else if (cmd.equals("menu")) {
-            loginUserMenu();
-        } else {
-            System.out.println("Selection invalid...");
-            accountSetupCourt();
+        switch (cmd) {
+            case "add":
+                addCourt();
+                break;
+            case "remove":
+                removeCourt();
+                break;
+            case "menu":
+                loginUserMenu();
+                break;
+            default:
+                System.out.println("Selection invalid...");
+                accountSetupCourt();
+                break;
         }
     }
 
@@ -358,7 +374,7 @@ public class TennisMateApp {
             addCourt();
         }
         loginUser.addPreferredCourt(court);
-        court.addPlayer(loginUser);
+        court.addUser(loginUser);
         printUpdatedCourt(loginUser);
         System.out.println("Enter 'add' to add a court");
         System.out.println("Enter any key to go back to user setup menu");
@@ -380,7 +396,7 @@ public class TennisMateApp {
         court = vancouver.lookingUpCourtByName(courtName);
         if (loginUser.getPreferredCourt().contains(court)) {
             loginUser.removePreferredCourt(court);
-            court.removePlayer(loginUser);
+            court.removeUser(loginUser);
             printUpdatedCourt(loginUser);
         } else {
             System.out.println(courtName + "is Not in your preferred Court. Please choose again");
@@ -395,7 +411,7 @@ public class TennisMateApp {
     }
 
     // EFFECTS: prints out user's preferred court list
-    private void printUpdatedCourt(Player loginUser) {
+    private void printUpdatedCourt(User loginUser) {
         System.out.println("\nYour preferred court list has been updated");
         System.out.println("Your preferred courts are:");
         for (Court c : loginUser.getPreferredCourt()) {
@@ -417,15 +433,20 @@ public class TennisMateApp {
     private void accountSetupTime() {
         printAccountSetUpTime();
         String cmd = getUserInputString();
-        if (cmd.equals("add")) {
-            accountAddSetupTimeSlot();
-        } else if (cmd.equals("remove")) {
-            accountRemoveSetupTime();
-        } else if (cmd.equals("menu")) {
-            loginUserMenu();
-        } else {
-            System.out.println("Invalid input...");
-            accountSetupTime();
+        switch (cmd) {
+            case "add":
+                accountAddSetupTimeSlot();
+                break;
+            case "remove":
+                accountRemoveSetupTime();
+                break;
+            case "menu":
+                loginUserMenu();
+                break;
+            default:
+                System.out.println("Invalid input...");
+                accountSetupTime();
+                break;
         }
     }
 
@@ -434,7 +455,13 @@ public class TennisMateApp {
     private void accountAddSetupTimeSlot() {
         System.out.println("Add timeSlot: Enter 0 - 23");
         String t = getUserInputString();
-        int time = Integer.parseInt(t);
+        int time = -1;
+        if (t.matches("-?\\d+(\\.\\d+)?")) {
+            time = Integer.parseInt(t);
+        } else {
+            System.out.println("Invalid input");
+            accountAddSetupTimeSlot();
+        }
         if (time < 0 || time > 23) {
             System.out.println("Invalid input");
             accountAddSetupTimeSlot();
@@ -528,11 +555,11 @@ public class TennisMateApp {
         if (cmd.length() > 0) {
             switch (cmd) {
                 case "all":
-                    courtSetupAllPlayers(court);
+                    courtSetupAllUsers(court);
                     courtSetup(court);
                     break;
                 case "active":
-                    courtSetupActivePlayers(court);
+                    courtSetupActiveUsers(court);
                     courtSetup(court);
                     break;
                 case "time":
@@ -550,26 +577,45 @@ public class TennisMateApp {
 
 
     // EFFECTS: prints all players name assigned to this court
-    private void courtSetupAllPlayers(Court court) {
-        System.out.println("players in " + court.getCourtName());
-        HashSet<String> allPlayersList = new HashSet<>();
-        for (Player p : court.getPlayers()) {
-            allPlayersList.add(p.getUserName());
-        }
-        if (allPlayersList.isEmpty()) {
-            System.out.println("There is no one signed in " + court.getCourtName());
-        } else {
-            TreeSet<String> sortedAllPlayersList = new TreeSet<>(allPlayersList);
-            System.out.println(sortedAllPlayersList);
-        }
+    private void courtSetupAllUsers(Court court) {
+        System.out.println("In " + court.getCourtName() + " court,");
+        courtSetupAllPlayers();
+        courtSetupAllCoaches();
+        //TreeSet<String> sortedAllPlayersList = new TreeSet<>(allPlayersList);
+        //System.out.println(sortedAllPlayersList);
     }
 
-    // EFFECTS: prints players name whose status are true in thie court
-    private void courtSetupActivePlayers(Court court) {
+    private void courtSetupAllPlayers() {
+        Collection<String> allPlayersList = new TreeSet<>();
+        for (User u : court.getUsers()) {
+            if (u.getType().equals("player")) {
+                allPlayersList.add(u.getUserName());
+            }
+        }
+        //if (allPlayersList.isEmpty()) {
+        //    System.out.println("There is no one signed in " + court.getCourtName());
+        //} else {
+        System.out.println("Players: " + allPlayersList);
+        //}
+    }
+
+    private void courtSetupAllCoaches() {
+        Collection<String> allCoachesList = new TreeSet<>();
+        for (User u : court.getCoaches()) {
+            if (u.getType().equals("coach")) {
+                allCoachesList.add(u.getUserName());
+            }
+        }
+        System.out.println("Coaches: " + allCoachesList);
+    }
+
+
+    // EFFECTS: prints players name whose status are true in this court
+    private void courtSetupActiveUsers(Court court) {
         System.out.println("players who are looking for a tennis mate:");
         HashSet<String> activePlayersList = new HashSet<>();
-        for (Player p : court.lookupPlayersByStatusTrue()) {
-            activePlayersList.add(p.getUserName());
+        for (User u : court.lookupUserByStatusTrue()) {
+            activePlayersList.add(u.getUserName());
         }
         if (activePlayersList.isEmpty()) {
             System.out.println("There is no one looking for a tennis mate in " + court.getCourtName());
@@ -612,10 +658,10 @@ public class TennisMateApp {
         String cmd = getUserInputString();
         if (cmd.equals("y")) {
             Iterator<String> it = list.iterator();
-            Player p = null;
+            User u = null;
             while (it.hasNext()) {
-                p = court.lookingUpPlayerByName(it.next());
-                System.out.println(p.getUserName() + ":" + p.getTimeSlot());
+                u = court.lookingUpUserByName(it.next());
+                System.out.println(u.getUserName() + ":" + u.getTimeSlot());
             }
         }
     }
@@ -639,6 +685,7 @@ public class TennisMateApp {
         }
         return cmd;
     }
+
 
     // code referred FitLifeGymChain
     //EFFECTS: stops receiving user input

@@ -13,6 +13,7 @@ public class CoachTest {
     private Coach testCoach;
     private int initialId;
     private int testId;
+    private String testCoachName;
     private int testFees;
     private Court testCourt1;
     private Court testCourt2;
@@ -20,7 +21,8 @@ public class CoachTest {
     @BeforeEach
     public void runBefore() {
         initialId = 515;
-        testId = 999;
+        testId = 444;
+        testCoachName = "testCoach";
         testCoach = new Coach(initialId, "testCoach");
         testCourt1 = new Court("testCourt1");
         testCourt2 = new Court("testCourt2");
@@ -39,11 +41,26 @@ public class CoachTest {
     }
 
     @Test
-    public void testSetId() {
+    public void testSetID() {
         assertEquals(initialId, testCoach.getId());
         testCoach.setID(testId);
         assertEquals(testId, testCoach.getId());
     }
+
+    @Test
+    public void testSetUserName() {
+        assertEquals(testCoachName, testCoach.getUserName());
+        testCoach.setUserName("testUser");
+        assertEquals("testUser", testCoach.getUserName());
+    }
+
+//    @Test
+//    public void testGetCourt() {
+//        testPlayer.addPreferredCourt(testCourt1);
+//        Iterator<Court> iterator = testPlayer.getPreferredCourt().iterator();
+//        while(iterator.hasNext())
+//        assertEquals((Court) testCourt1, testPlayer.getPreferredCourt());
+//    }
 
     @Test
     public void testSetLevel() {
@@ -54,17 +71,21 @@ public class CoachTest {
         assertEquals("advance", testCoach.getLevel());
     }
 
+
     @Test
     public void testAddOncePreferredCourts() {
         testCoach.addPreferredCourt(testCourt1);
         assertTrue(testCoach.getPreferredCourt().contains(testCourt1));
     }
 
-//    @Test
-//    public void testAddManyPreferredCourts() {
-//        testPlayer.addPreferredCourt(testCourt1);
-//        testPlayer.addPreferredCourt(testCourt2);
-//    }
+    @Test
+    public void testAddManyPreferredCourts() {
+        testCoach.addPreferredCourt(testCourt1);
+        testCoach.addPreferredCourt(testCourt2);
+        assertTrue(testCoach.getPreferredCourt().contains(testCourt1));
+        assertTrue(testCoach.getPreferredCourt().contains(testCourt2));
+
+    }
 
     @Test
     public void testRemovePreferredCourt() {
@@ -76,6 +97,16 @@ public class CoachTest {
     public void testAddTimeSlot() {
         testCoach.addTimeSlot(13);
         assertTrue(testCoach.getTimeSlot().contains(13));
+    }
+
+    @Test
+    public void testAddTimeSlotMany() {
+        testCoach.addTimeSlot(15);
+        testCoach.addTimeSlot(7);
+        testCoach.addTimeSlot(9);
+        assertTrue(testCoach.getTimeSlot().contains(15));
+        assertTrue(testCoach.getTimeSlot().contains(7));
+        assertTrue(testCoach.getTimeSlot().contains(9));
     }
 
     @Test
@@ -95,8 +126,8 @@ public class CoachTest {
 
     @Test
     public void testSetFees() {
-        testCoach.setFees(100);
-        assertEquals(100, testCoach.getFees());
+        testCoach.setFees(testFees);
+        assertEquals(testFees, testCoach.getFees());
     }
 
 

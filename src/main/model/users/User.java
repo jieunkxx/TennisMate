@@ -11,6 +11,7 @@ public class User {
     protected List<Integer> timeSlots;    // user's time slot
     protected String level;               // user's level
     protected Collection<Court> courts;   // user's preferred courts
+    protected String type;
 
     public User(int id, String userName) {
         this.id = id;
@@ -46,15 +47,20 @@ public class User {
         return level;
     }
 
+    public String getType() {
+        return type;
+    }
+
     // EFFECTS: return a list of assigned time slot
     public List<Integer> getTimeSlot() {
         List<Integer> availableTimeSlot = new ArrayList<>();
+        //Collection<Integer> availableTimeSlot = new TreeSet<>();
         for (int i = 0; i < timeSlots.size(); i++) {
             if (timeSlots.get(i) != null) {
                 availableTimeSlot.add(i);
             }
         }
-        Collections.sort(availableTimeSlot);
+        //Collections.sort(availableTimeSlot);
         return availableTimeSlot;
     }
 
@@ -97,7 +103,7 @@ public class User {
     //MODIFIES: this
     //EFFECTS: adds time slot to player's available time
     public void addTimeSlot(int time) {
-        timeSlots.add(time, time);
+        timeSlots.set(time, time);
     }
 
     //MODIFIES: this
@@ -112,4 +118,11 @@ public class User {
         this.status = status;
         return status;
     }
+
+//    // REQUIRES: user type is either "p" (player) or "c" (coach)
+//    // MODIFIES: this
+//    // EFFECTS: sets the user type
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 }
