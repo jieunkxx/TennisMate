@@ -113,8 +113,8 @@ public class CourtTest {
     @Test
     public void testLookupPlayersByStatusTrue() {
         testPlayer1.setStatus(true);
-        assertTrue(testPlayer1.getStatus());
         testPlayer2.setStatus(false);
+        assertTrue(testPlayer1.getStatus());
         assertFalse(testPlayer2.getStatus());
         testCourt.addPlayer(testPlayer1);
         testCourt.addPlayer(testPlayer2);
@@ -139,8 +139,8 @@ public class CourtTest {
     @Test
     public void testLookupCoachByStatusTrue() {
         testCoach1.setStatus(true);
-        assertTrue(testCoach1.getStatus());
         testCoach2.setStatus(false);
+        assertTrue(testCoach1.getStatus());
         assertFalse(testCoach2.getStatus());
         testCourt.addCoach(testCoach1);
         testCourt.addCoach(testCoach2);

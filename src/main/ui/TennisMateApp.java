@@ -510,7 +510,7 @@ public class TennisMateApp {
 
     //EFFECTS: print court setup menu
     private void printCourtSetup(Court court) {
-        System.out.println("You are in court" + court.getCourtName());
+        System.out.println("\nYou are in court" + court.getCourtName());
         System.out.println("Enter 'all' to lookup all players");
         System.out.println("Enter 'active' to lookup players who are looking for a tennis mate");
         System.out.println("Enter 'time' to lookup players who are available in selected time slot");
@@ -581,7 +581,7 @@ public class TennisMateApp {
         int from = Integer.parseInt(getUserInputString());
         System.out.println("To (0 - 23): ");
         int to = Integer.parseInt(getUserInputString());
-        if (from < 0 && from > 23 && to < 0 && to > 23) {
+        if (from < 0 || from > 23 || to < 0 || to > 23) {
             System.out.println("Input invalid");
             courtSetupPlayersInSelectedTimeSlot(court);
         }
