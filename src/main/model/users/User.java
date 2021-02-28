@@ -16,9 +16,13 @@ public class User {
         this.id = id;
         this.userName = userName;
         status = false;
-        timeSlots = new ArrayList<>();
         level = "novice";
         courts = new HashSet<>();
+        timeSlots = new ArrayList<>();
+        for (int i = 0; i <= 23; i++) {
+            timeSlots.add(i, null);
+        }
+
     }
 
     // getters

@@ -5,7 +5,10 @@ import model.users.Coach;
 import model.users.Player;
 import model.courts.Court;
 
+import java.io.File;
 import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class TennisMateApp {
 
@@ -33,7 +36,7 @@ public class TennisMateApp {
     // code referred TellerApp & FitLifeGymChain
     // MODIFIES: this
     // EFFECTS: runs the tennisMate application. initialize setup
-    public TennisMateApp() {
+    public TennisMateApp() throws FileNotFoundException {
         init();
         runTennisMate();
     }

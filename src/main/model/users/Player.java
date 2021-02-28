@@ -13,9 +13,6 @@ public class Player extends User {
     //          and novice level
     public Player(int id, String userName) {
         super(id, userName);
-        for (int i = 0; i <= 23; i++) {
-            timeSlots.add(i, null);
-        }
     }
 
 
