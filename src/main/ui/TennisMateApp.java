@@ -5,18 +5,27 @@ import model.users.Coach;
 import model.users.Player;
 import model.courts.Court;
 import model.users.User;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
-import java.util.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 public class TennisMateApp {
 
-    private static final String JSON_STORE = "./data/user.json";
+    private static final String JSON_STORE = "./data/vancouver.json";
 
     //private static final String LOCATION_NAME = "Vancouver";
     private static final String UBC_COURT_NAME = "UBC";
     private static final String KITS_COURT_NAME = "Kits";
     private static final String STANLEY_PARK_COURT_NAME = "StanleyPark";
+
+
+    private Scanner input;
+    private boolean runProgram;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
 
     private Location vancouver;
@@ -32,8 +41,7 @@ public class TennisMateApp {
     private Collection<User> userList;
     //private List<String> userInfo;
 
-    private Scanner input;
-    private boolean runProgram;
+
 
     // code referred TellerApp & FitLifeGymChain
     // MODIFIES: this
@@ -69,6 +77,11 @@ public class TennisMateApp {
             doLogIn();
         } else if (cmd.equals("l")) {
             doLogIn();
+        } else if (cmd.equals("save")) {
+            saveLocation();
+        } else if (cmd.equals("load")) {
+            loadLocation();
+            //save /initializing the data
         } else {
             System.out.println("Selection not valid...");
             displayMenu();
@@ -81,6 +94,8 @@ public class TennisMateApp {
         System.out.println("Enter 'l' to logIn");
         System.out.println("Enter 's' to signUp if you don't have account");
         System.out.println("Enter 'q' to quit");
+        System.out.println("Enter 'save' to save");
+        System.out.println("Enter 'load' to save");
     }
 
 
@@ -95,8 +110,8 @@ public class TennisMateApp {
         userNameList = new HashSet<>();
         userList = new HashSet<>();
         runProgram = true;
-        //jsonWriter = new JsonWriter(JSON_STORE);
-        //jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -692,6 +707,29 @@ public class TennisMateApp {
     public void endProgram() {
         System.out.println("\nGoodbye!");
         input.close();
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveLocation() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(vancouver);
+            jsonWriter.close();
+            System.out.println("Saved " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads location from file
+    private void loadLocation() {
+        try {
+            vancouver = jsonReader.read();
+            System.out.println("Loaded " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }
 

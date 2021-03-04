@@ -1,12 +1,5 @@
 package model.users;
 
-import model.courts.Court;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
 public class Coach extends User {
     private int fees;
 

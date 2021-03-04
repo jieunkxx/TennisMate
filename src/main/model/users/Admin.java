@@ -10,12 +10,25 @@ public class Admin {
     private Collection<Player> players;
     private Collection<Coach> coaches;
 
+    private Collection<Integer> userIdList;
+    private Collection<String> userNameList;
+    private Collection<User> userList;
+    //private List<String> userInfo;
+
     public Admin() {
-        users = new HashSet<>();
-        players = new HashSet<>();
-        coaches = new HashSet<>();
+        userList = new HashSet<>();
+        //players = new HashSet<>();
+        //coaches = new HashSet<>();
+
     }
 
+    public Collection<User> getUserList() {
+        return userList;
+    }
+
+    public void addUser(User user) {
+        userList.add(user);
+    }
 
     // MODIFIES: this
     // EFFECTS: generate user ID (integer 1 - 999) for new user

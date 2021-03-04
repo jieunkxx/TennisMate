@@ -1,9 +1,5 @@
 package model.users;
 
-import model.courts.Court;
-
-import java.util.*;
-
 // Represents a player with id, preferred courts, time slots, level and status
 public class Player extends User {
 

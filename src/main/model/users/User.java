@@ -1,10 +1,14 @@
 package model.users;
 
 import model.courts.Court;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
+import persistence.Writable;
 
 import java.util.*;
 
-public class User {
+public class User implements Writable {
     protected int id;                     // user's id
     protected String userName;            // user's name
     protected boolean status;             // user's status
@@ -38,6 +42,7 @@ public class User {
     public boolean getStatus() {
         return status;
     }
+
 
     public Collection<Court> getPreferredCourt() {
         return courts;
@@ -119,10 +124,28 @@ public class User {
         return status;
     }
 
-//    // REQUIRES: user type is either "p" (player) or "c" (coach)
-//    // MODIFIES: this
-//    // EFFECTS: sets the user type
-//    public void setType(String type) {
-//        this.type = type;
-//    }
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("userName", userName);
+        json.put("id", id);
+        json.put("type", type);
+        json.put("status", status);
+        json.put("level", level);
+        json.put("timeSlot", timeslotsToJson());
+
+        return json;
+    }
+
+    public JSONArray timeslotsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < getTimeSlot().size(); i++) {
+            jsonArray.put(getTimeSlot().get(i));
+        }
+        return jsonArray;
+    }
+
+
+
 }
