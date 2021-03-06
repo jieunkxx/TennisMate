@@ -11,16 +11,17 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.stream.Stream;
 
-public class JsonReader {
+/*
+This code is referred to the JSonSerializationDemo example
+ */
+
+public class JsonReaderLocation {
     private String source;
 
     // EFFECTS: constructs reader to read from source file
-    public JsonReader(String source) {
+    public JsonReaderLocation(String source) {
         this.source = source;
     }
 
@@ -29,7 +30,7 @@ public class JsonReader {
     public Location read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseLocation(jsonObject);
+        return parseTarget(jsonObject);
     }
 
     private String readFile(String source) throws IOException {
@@ -42,8 +43,8 @@ public class JsonReader {
     }
 
     // EFFECTS: parses location from JSON object and returns it
-    private Location parseLocation(JSONObject jsonObject) {
-        String location = jsonObject.getString("Location");
+    private Location parseTarget(JSONObject jsonObject) {
+        String location = jsonObject.getString("Admin");
         Location loc = new Location();
         addCourts(loc, jsonObject);
         return loc;
@@ -53,7 +54,7 @@ public class JsonReader {
     // MODIFIES: wr
     // EFFECTS: parses thingies from JSON object and adds them to workroom
     private void addCourts(Location loc, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("Courts");
+        JSONArray jsonArray = jsonObject.getJSONArray("courts");
         for (Object json : jsonArray) {
             JSONObject nextCourt = (JSONObject) json;
             addCourt(loc, nextCourt);

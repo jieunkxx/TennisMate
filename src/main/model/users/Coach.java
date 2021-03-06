@@ -5,7 +5,7 @@ public class Coach extends User {
 
     // REQUIRES: id is not taken by other user
     // EFFECTS: constructs coach with given id and empty timeslot, empty court list
-    //          and novice level
+    //          and novice level, type "coach"
     public Coach(int id, String userName) {
         super(id, userName);
         type = "coach";

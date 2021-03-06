@@ -1,4 +1,4 @@
-package model;
+package model.users;
 
 import model.courts.Court;
 import model.users.Coach;

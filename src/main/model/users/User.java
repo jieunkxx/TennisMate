@@ -17,6 +17,9 @@ public class User implements Writable {
     protected Collection<Court> courts;   // user's preferred courts
     protected String type;
 
+    // REQUIRES: id is not taken by other user
+    // EFFECTS: constructs user with given id and empty timeslot, empty court list
+    //          and novice level
     public User(int id, String userName) {
         this.id = id;
         this.userName = userName;
@@ -69,50 +72,50 @@ public class User implements Writable {
         return availableTimeSlot;
     }
 
-    // REQUIRES: there is no players using the same id
+    // REQUIRES: there is no user using the same id
     // MODIFIES: this
     // EFFECTS: set this player's id
     public void setID(int id) {
         this.id = id;
     }
 
-    // REQUIRES: there is no players using the same user name
+    // REQUIRES: there is no user using the same user name
     // MODIFIES: this
-    // EFFECTS: set this player's user name
+    // EFFECTS: set this user's user name
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     // REQUIRES: level should be one of "novice", "intermediate", "advance"
     // MODIFIES: this
-    // EFFECTS: set this player's level
+    // EFFECTS: set this user's level
     public void setLevel(String level) {
         this.level = level;
     }
 
     //REQUIRES: court != null
     //MODIFIES: this
-    //EFFECTS: adds the given court to player's preferred court list
+    //EFFECTS: adds the given court to user's preferred court list
     public void addPreferredCourt(Court court) {
         courts.add(court);
     }
 
     //REQUIRES: court != null
     //MODIFIES: this
-    //EFFECTS: removes the given court from player's preferred court list
+    //EFFECTS: removes the given court from user's preferred court list
     public void removePreferredCourt(Court court) {
         courts.remove(court);
     }
 
     //REQUIRES: time slots : 0 ~ 23
     //MODIFIES: this
-    //EFFECTS: adds time slot to player's available time
+    //EFFECTS: adds time slot to user's available time
     public void addTimeSlot(int time) {
         timeSlots.set(time, time);
     }
 
     //MODIFIES: this
-    //EFFECTS: removes the time slot from player's available time
+    //EFFECTS: removes the time slot from user's available time
     public void removeTimeSlot(int time) {
         timeSlots.remove(time);
     }
@@ -132,11 +135,22 @@ public class User implements Writable {
         json.put("type", type);
         json.put("status", status);
         json.put("level", level);
+        json.put("courts", courtsToJson());
         json.put("timeSlot", timeslotsToJson());
 
         return json;
     }
 
+    public JSONArray courtsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Court c : courts) {
+            jsonArray.put(c.getCourtName());
+        }
+        return jsonArray;
+    }
+
+    // EFFECTS: returns timeslot in this user as a JSON array
     public JSONArray timeslotsToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -145,7 +159,6 @@ public class User implements Writable {
         }
         return jsonArray;
     }
-
 
 
 }

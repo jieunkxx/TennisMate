@@ -43,21 +43,21 @@ public class Court implements Writable {
         return users;
     }
 
-    // REQUIRES: player != null
+    // REQUIRES: user != null
     // MODIFIES: this
     // EFFECTS: adds player to this court
     public void addUser(User user) {
         users.add(user);
     }
 
-    // REQUIRES: player != null && The player is assigned to the court
+    // REQUIRES: user != null && The user is assigned to the court
     // MODIFIES: this
     // EFFECTS: removes player from this court
     public void removeUser(User user) {
         users.remove(user);
     }
 
-    // EFFECTS: return player who has name "username"
+    // EFFECTS: return user who has name "username"
     public User lookingUpUserByName(String userName) {
         User user = null;
         for (User u : users) {
@@ -79,6 +79,7 @@ public class Court implements Writable {
         return userStatusTrue;
     }
 
+    // EFFECTS: return a list of users who has type passed parameter type
     public Collection<User> lookupUserByType(String type) {
         Collection<User> userType = new HashSet<>();
         for (User u : users) {
@@ -97,6 +98,7 @@ public class Court implements Writable {
         return json;
     }
 
+    // EFFECTS: returns users in this court as a JSON array
     public JSONArray usersToJson() {
         JSONArray jsonArray = new JSONArray();
         for (User u : users) {

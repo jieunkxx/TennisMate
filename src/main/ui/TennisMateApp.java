@@ -1,11 +1,13 @@
 package ui;
 
 import model.Location;
+import model.users.Admin;
 import model.users.Coach;
 import model.users.Player;
 import model.courts.Court;
 import model.users.User;
-import persistence.JsonReader;
+import persistence.JsonReaderAdmin;
+import persistence.JsonReaderLocation;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
@@ -17,6 +19,7 @@ public class TennisMateApp {
     private static final String JSON_STORE = "./data/vancouver.json";
 
     //private static final String LOCATION_NAME = "Vancouver";
+    private static final String DEFAULT_COURT_NAME = "NONE";
     private static final String UBC_COURT_NAME = "UBC";
     private static final String KITS_COURT_NAME = "Kits";
     private static final String STANLEY_PARK_COURT_NAME = "StanleyPark";
@@ -25,9 +28,10 @@ public class TennisMateApp {
     private Scanner input;
     private boolean runProgram;
     private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
+    private JsonReaderLocation jsonReaderLocation;
+    private JsonReaderAdmin jsonReaderAdmin;
 
-
+    private Admin admin;
     private Location vancouver;
     private Court court;
     private Player player;
@@ -36,9 +40,9 @@ public class TennisMateApp {
     private User loginUser;
     private int userId;
     private String userName;
-    private Collection<Integer> userIdList;
-    private Collection<String> userNameList;
-    private Collection<User> userList;
+//    private Collection<Integer> userIdList;
+//    private Collection<String> userNameList;
+//    private Collection<User> userList;
     //private List<String> userInfo;
 
 
@@ -78,10 +82,12 @@ public class TennisMateApp {
         } else if (cmd.equals("l")) {
             doLogIn();
         } else if (cmd.equals("save")) {
-            saveLocation();
+            //saveLocation();
+            saveAdmin();
         } else if (cmd.equals("load")) {
-            loadLocation();
-            //save /initializing the data
+            //loadLocation();
+            loadAdmin();
+
         } else {
             System.out.println("Selection not valid...");
             displayMenu();
@@ -102,21 +108,28 @@ public class TennisMateApp {
     // MODIFIES: this
     // EFFECTS: initialize location and courts
     private void init() {
+        admin = new Admin();
         vancouver = new Location();
+        admin.setLocation(vancouver);
         //loadLocation(location);
         loadCourt(vancouver);
         //loadPlayer(player);
-        userIdList = new HashSet<>();
-        userNameList = new HashSet<>();
-        userList = new HashSet<>();
+//        userIdList = new HashSet<>();
+//        userNameList = new HashSet<>();
+//        userList = new HashSet<>();
         runProgram = true;
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        jsonReaderLocation = new JsonReaderLocation(JSON_STORE);
+        jsonReaderAdmin = new JsonReaderAdmin(JSON_STORE);
     }
 
     // MODIFIES: this
     // EFFECTS: initialize courts in location
-    private static void loadCourt(Location location) {
+    public static void loadCourt(Location location) {
+
+        //Court c0 = new Court(DEFAULT_COURT_NAME);
+        //location.addCourt(c0);
+
         Court c1 = new Court(UBC_COURT_NAME);
         location.addCourt(c1);
 
@@ -125,22 +138,6 @@ public class TennisMateApp {
 
         Court c3 = new Court(STANLEY_PARK_COURT_NAME);
         location.addCourt(c3);
-    }
-
-    //private static void loadPlayer(Player player) {}
-
-
-    // MODIFIES: this
-    // EFFECTS: generate user ID (integer 1 - 999) for new user
-    private int generateId() {
-        userId = (int) (Math.random() * 999) + 1;
-        if (userIdList.contains(userId)) {
-            while (!userIdList.contains(userId)) {
-                userId = (int) (Math.random() * 999) + 1;
-            }
-        }
-        userIdList.add(userId);
-        return userId;
     }
 
     // EFFECTS: prints signUp page
@@ -168,19 +165,19 @@ public class TennisMateApp {
         String userType = userType();
         System.out.println("\nEnter User Name:");
         userName = getUserInputString();
-        if (userNameList.contains(userName)) {
+        if (admin.getUserNameList().contains(userName)) {
             System.out.println("user Name exist.. Move to Login Page");
             doLogIn();
         } else {
-            int userId = generateId();
-            userNameList.add(userName);
-            userIdList.add(userId);
+            int userId = admin.generateUserId();
+            admin.addUserName(userName);
+            admin.addUserId(userId);
             if (userType.equals("p")) {
                 user = new Player(userId, userName);
             } else if (userType.equals("c")) {
                 user = new Coach(userId, userName);
             }
-            userList.add(user);
+            admin.addUser(user);
             System.out.println("\nSignUp Completed.");
             System.out.println("user Name : " + userName + " (usertype: " + user.getType() + ")");
         }
@@ -191,12 +188,12 @@ public class TennisMateApp {
     private void doLogIn() {
         System.out.println("\nLogin: Press your userName");
         String userName = getUserInputString();
-        if (!userNameList.contains(userName)) {
+        if (!admin.getUserNameList().contains(userName)) {
             System.out.println("userName not founded");
             System.out.println("Move to SignUp...");
             doSignUp();
         }
-        for (User u : userList) {
+        for (User u : admin.getUserList()) {
             if (u.getUserName().equals(userName)) {
                 loginUser = u;
             }
@@ -349,7 +346,6 @@ public class TennisMateApp {
             System.out.println("invalid input");
             accountSetupLevel();
         }
-
     }
 
     // MODIFIES: this
@@ -549,12 +545,12 @@ public class TennisMateApp {
             System.out.println("Please Enter valid court name");
             courtMainMenu();
         } else {
-            courtSetup(court);
+            courtSetup();
         }
     }
 
     //EFFECTS: print court setup menu
-    private void printCourtSetup(Court court) {
+    private void printCourtSetup() {
         System.out.println("\nYou are in court" + court.getCourtName());
         System.out.println("Enter 'all' to lookup all players");
         System.out.println("Enter 'active' to lookup players who are looking for a tennis mate");
@@ -564,35 +560,35 @@ public class TennisMateApp {
 
     // MODIFIES: this
     // EFFECTS: handle user input for court set up menu
-    private void courtSetup(Court court) {
-        printCourtSetup(court);
+    private void courtSetup() {
+        printCourtSetup();
         String cmd = getUserInputString();
         if (cmd.length() > 0) {
             switch (cmd) {
                 case "all":
-                    courtSetupAllUsers(court);
-                    courtSetup(court);
+                    courtSetupAllUsers();
+                    courtSetup();
                     break;
                 case "active":
-                    courtSetupActiveUsers(court);
-                    courtSetup(court);
+                    courtSetupActiveUsers();
+                    courtSetup();
                     break;
                 case "time":
-                    courtSetupPlayersInSelectedTimeSlot(court);
-                    courtSetup(court);
+                    courtSetupPlayersInSelectedTimeSlot();
+                    courtSetup();
                     break;
                 case "main":
                     mainPage();
                     break;
                 default:
-                    courtSetup(court);
+                    courtSetup();
             }
         }
     }
 
 
-    // EFFECTS: prints all players name assigned to this court
-    private void courtSetupAllUsers(Court court) {
+    // EFFECTS: prints all userName assigned to this court
+    private void courtSetupAllUsers() {
         System.out.println("In " + court.getCourtName() + " court,");
         courtSetupAllPlayers();
         courtSetupAllCoaches();
@@ -600,6 +596,7 @@ public class TennisMateApp {
         //System.out.println(sortedAllPlayersList);
     }
 
+    // EFFECTS: prints all players name assigned to this court
     private void courtSetupAllPlayers() {
         Collection<String> allPlayersList = new TreeSet<>();
         for (User u : court.getUsers()) {
@@ -614,6 +611,7 @@ public class TennisMateApp {
         //}
     }
 
+    // EFFECTS: prints all coach name assigned to this court
     private void courtSetupAllCoaches() {
         Collection<String> allCoachesList = new TreeSet<>();
         for (User u : court.getCoaches()) {
@@ -626,7 +624,7 @@ public class TennisMateApp {
 
 
     // EFFECTS: prints players name whose status are true in this court
-    private void courtSetupActiveUsers(Court court) {
+    private void courtSetupActiveUsers() {
         System.out.println("players who are looking for a tennis mate:");
         HashSet<String> activePlayersList = new HashSet<>();
         for (User u : court.lookupUserByStatusTrue()) {
@@ -640,14 +638,14 @@ public class TennisMateApp {
     }
 
     // EFFECTS: prints players name whose time slot contains selected time slot
-    private void courtSetupPlayersInSelectedTimeSlot(Court court) {
+    private void courtSetupPlayersInSelectedTimeSlot() {
         System.out.println("Enter time slot From (0 - 23) :");
         int from = Integer.parseInt(getUserInputString());
         System.out.println("To (0 - 23): ");
         int to = Integer.parseInt(getUserInputString());
         if (from < 0 || from > 23 || to < 0 || to > 23) {
             System.out.println("Input invalid");
-            courtSetupPlayersInSelectedTimeSlot(court);
+            courtSetupPlayersInSelectedTimeSlot();
         }
         List<Integer> selectedTime = new ArrayList<>();
         for (int i = from; i <= to; i++) {
@@ -709,7 +707,7 @@ public class TennisMateApp {
         input.close();
     }
 
-    // EFFECTS: saves the workroom to file
+    // EFFECTS: saves the location to file
     private void saveLocation() {
         try {
             jsonWriter.open();
@@ -721,12 +719,37 @@ public class TennisMateApp {
         }
     }
 
+    // EFFECTS: saves the admin to file
+    private void saveAdmin() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(admin);
+            jsonWriter.close();
+            System.out.println("Saved " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
     // MODIFIES: this
     // EFFECTS: loads location from file
     private void loadLocation() {
         try {
-            vancouver = jsonReader.read();
+            vancouver = jsonReaderLocation.read();
             System.out.println("Loaded " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads admin from file
+    private void loadAdmin() {
+        try {
+            admin = jsonReaderAdmin.readAdmin();
+            vancouver = admin.getLocation();
+            System.out.println("Loaded " + JSON_STORE);
+            System.out.println("1" + admin.getUserIdList());
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }

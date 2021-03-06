@@ -1,9 +1,15 @@
 package persistence;
 
 import model.Location;
+import model.users.Admin;
 import org.json.JSONObject;
 
 import java.io.*;
+
+/*
+This code is referred to the JSonSerializationDemo example
+*/
+
 
 public class JsonWriter {
     private static final int TAB = 4;
@@ -23,9 +29,16 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of workroom to file
+    // EFFECTS: writes JSON representation of location to file
     public void write(Location loc) {
         JSONObject json = loc.toJson();
+        saveToFile(json.toString(TAB));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of Admin to file
+    public void write(Admin admin) {
+        JSONObject json = admin.toJson();
         saveToFile(json.toString(TAB));
     }
 

@@ -62,12 +62,22 @@ public class Location implements Writable {
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns court in this location as a JSON array
     private JSONArray courtsToJson() {
+        Collection<Court> jsonCourtList = courts;
+        Court court = new Court("NONE");
+        for (User u : users) {
+            if (u.getPreferredCourt().isEmpty()) {
+                u.addPreferredCourt(court);
+            }
+        }
+
         JSONArray jsonArray = new JSONArray();
-        for (Court c : courts) {
+        for (Court c : jsonCourtList) {
             jsonArray.put(c.toJson());
         }
         return jsonArray;
     }
+
+
 }
