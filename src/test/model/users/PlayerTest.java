@@ -67,7 +67,10 @@ class PlayerTest {
     public void testLookingupCourtByName() {
         assertFalse(testPlayer.lookingupCourtByName(testCourt1.getCourtName()));
         testPlayer.addPreferredCourt(testCourt1);
+        testPlayer.addPreferredCourt(testCourt2);
         assertTrue(testPlayer.lookingupCourtByName(testCourt1.getCourtName()));
+        assertTrue(testPlayer.lookingupCourtByName(testCourt2.getCourtName()));
+        assertFalse(testPlayer.lookingupCourtByName("testCourt3"));
 
     }
 

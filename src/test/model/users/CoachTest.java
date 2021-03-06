@@ -63,6 +63,17 @@ public class CoachTest {
 //    }
 
     @Test
+    public void testLookingupCourtByName() {
+        assertFalse(testCoach.lookingupCourtByName(testCourt1.getCourtName()));
+        testCoach.addPreferredCourt(testCourt1);
+        testCoach.addPreferredCourt(testCourt2);
+        assertTrue(testCoach.lookingupCourtByName(testCourt1.getCourtName()));
+        assertTrue(testCoach.lookingupCourtByName(testCourt2.getCourtName()));
+        assertFalse(testCoach.lookingupCourtByName("testCourt3"));
+
+    }
+
+    @Test
     public void testSetLevel() {
         assertEquals("novice", testCoach.getLevel());
         testCoach.setLevel("intermediate");
