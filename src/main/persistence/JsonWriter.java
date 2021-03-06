@@ -1,6 +1,5 @@
 package persistence;
 
-import model.Location;
 import model.users.Admin;
 import org.json.JSONObject;
 
@@ -28,12 +27,12 @@ public class JsonWriter {
         writer = new PrintWriter(new File(destination));
     }
 
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of location to file
-    public void write(Location loc) {
-        JSONObject json = loc.toJson();
-        saveToFile(json.toString(TAB));
-    }
+//    // MODIFIES: this
+//    // EFFECTS: writes JSON representation of location to file
+//    public void write(Location loc) {
+//        JSONObject json = loc.toJson();
+//        saveToFile(json.toString(TAB));
+//    }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of Admin to file

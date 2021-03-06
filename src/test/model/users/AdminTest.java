@@ -1,30 +1,18 @@
 package model.users;
 
-import model.Location;
-import model.courts.Court;
+import model.Locations.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminTest {
 
-    int userId;
-    String userName;
-    private Location testLocation;
+
     private Admin testAdmin;
 
-    private Collection<Integer> userIdList;
-    private Collection<String> userNameList;
-    private Collection<User> userList;
-
-    private Court testCourt;
     private Player testPlayer1;
     private Player testPlayer2;
     private Player testPlayer3;
@@ -33,34 +21,44 @@ public class AdminTest {
     private Coach testCoach2;
     private Coach testCoach3;
 
-    private String testPlayer1Name = "testPlayer1";
-    private String testPlayer2Name = "testPlayer2";
-    private String testPlayer3Name = "testPlayer3";
+    private String testPlayer1Name;
+    private String testPlayer2Name;
+    private String testPlayer3Name;
 
-    private String testCoach1Name = "testCoach1";
-    private String testCoach2Name = "testCoach2";
-    private String testCoach3Name = "testCoach3";
+    private String testCoach1Name;
+    private String testCoach2Name;
+    private String testCoach3Name;
 
-    private int testId1 = 111;
-    private int testId2 = 222;
-    private int testId3 = 333;
+    private int testId1;
+    private int testId2;
+    private int testId3;
 
-    private int testId5 = 555;
-    private int testId6 = 666;
-    private int testId7 = 777;
+    private int testId5;
+    private int testId6;
+    private int testId7;
 
     @BeforeEach
     public void runBefore() {
-        testAdmin = new Admin();
-        testLocation = new Location();
-        testAdmin.setLocation(testLocation);
+        Location testLocation1 = new Location("testLocation1");
+        testAdmin = new Admin(testLocation1);
+
+        testPlayer1Name = "testPlayer1";
+        testPlayer2Name = "testPlayer2";
+        testPlayer3Name = "testPlayer3";
+
+        testCoach1Name = "testCoach1";
+
+        testId1 = 111;
+        testId2 = 222;
+        testId3 = 333;
+
+        testId5 = 555;
 
         testPlayer1 = new Player(testId1, testPlayer1Name);
         testPlayer2 = new Player(testId2, testPlayer2Name);
         testPlayer3 = new Player(testId3, testPlayer3Name);
         testCoach1 = new Coach(testId5, testCoach1Name);
-        testCoach2 = new Coach(testId6, testCoach2Name);
-        testCoach3 = new Coach(testId7, testCoach3Name);
+
     }
 
     @Test
@@ -80,10 +78,13 @@ public class AdminTest {
     @Test
     void testAddUserMany() {
         testAdmin.addUser(testPlayer1);
+        testAdmin.addUser(testPlayer2);
         testAdmin.addUser(testCoach1);
-        assertEquals(2, testAdmin.getUserList().size());
+        assertEquals(3, testAdmin.getUserList().size());
         assertTrue(testAdmin.getUserList().contains(testPlayer1));
+        assertTrue(testAdmin.getUserList().contains(testPlayer2));
         assertTrue(testAdmin.getUserList().contains(testCoach1));
+        assertFalse(testAdmin.getUserList().contains(testPlayer3));
     }
 
     @Test
@@ -127,7 +128,9 @@ public class AdminTest {
 
     @Test
     public void testSetLocation() {
-        testAdmin.setLocation(testLocation);
-        assertEquals(testLocation.toString(), testAdmin.getLocation().toString());
+        Location testLocation2 = new Location("testLocation2");
+        testAdmin.setLocation(testLocation2);
+        assertTrue(testAdmin.getLocation().equals(testLocation2));
+        assertEquals("testLocation2", testAdmin.getLocationName());
     }
 }

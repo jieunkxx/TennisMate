@@ -51,6 +51,16 @@ public class User implements Writable {
         return courts;
     }
 
+    public boolean lookingupCourtByName(String courtName) {
+        boolean status = false;
+        for (Court c : courts) {
+            if (c.getCourtName().equalsIgnoreCase(courtName)) {
+                status = true;
+            }
+        }
+        return status;
+    }
+
     public String getLevel() {
         return level;
     }
@@ -124,8 +134,17 @@ public class User implements Writable {
     // EFFECTS: sets status
     public boolean setStatus(boolean status) {
         this.status = status;
-        return status;
+        return this.status;
     }
+
+//    public boolean setStatus(String status) {
+//        if (status.equals("true")) {
+//            this.status = true;
+//        } else {
+//            this.status = false;
+//        }
+//        return this.status;
+//    }
 
     @Override
     public JSONObject toJson() {

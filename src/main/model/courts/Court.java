@@ -10,8 +10,8 @@ import persistence.Writable;
 
 import java.util.*;
 
-public class Court implements Writable {
-
+public class Court {
+//public class Court implements Writable {
     private String courtName;               // court name
     private Collection<Player> players;     // list of players assigned to this court
     private Collection<Coach> coaches;
@@ -90,23 +90,23 @@ public class Court implements Writable {
         return userType;
     }
 
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("courtName", courtName);
-        json.put("users", usersToJson());
-        return json;
-    }
-
-    // EFFECTS: returns users in this court as a JSON array
-    public JSONArray usersToJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (User u : users) {
-            jsonArray.put(u.toJson());
-        }
-        return jsonArray;
-    }
-
+//    @Override
+//    public JSONObject toJson() {
+//        JSONObject json = new JSONObject();
+//        json.put("courtName", courtName);
+//        json.put("users", usersToJson());
+//        return json;
+//    }
+//
+//    // EFFECTS: returns users in this court as a JSON array
+//    public JSONArray usersToJson() {
+//        JSONArray jsonArray = new JSONArray();
+//        for (User u : users) {
+//            jsonArray.put(u.toJson());
+//        }
+//        return jsonArray;
+//    }
+//
 //
 //    // EFFECTS: return player who has name "username"
 //    public Player lookingUpPlayerByName(String userName) {

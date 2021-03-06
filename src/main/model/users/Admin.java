@@ -1,12 +1,12 @@
 package model.users;
 
-import model.Location;
+import model.Locations.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Admin implements Writable {
 
@@ -14,27 +14,27 @@ public class Admin implements Writable {
     String userName;
     private Location location;
 
-    private Collection<Integer> userIdList;
-    private Collection<String> userNameList;
-    private Collection<User> userList;
+    private List<Integer> userIdList;
+    private List<String> userNameList;
+    private List<User> userList;
 
-    public Admin() {
-        location = new Location();
-        userList = new HashSet<>();
-        userNameList = new HashSet<>();
-        userIdList = new HashSet<>();
+    public Admin(Location location) {
+        this.location = location;
+        userList = new ArrayList<>();
+        userNameList = new ArrayList<>();
+        userIdList = new ArrayList<>();
     }
 
     //getter
-    public Collection<User> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public Collection<String> getUserNameList() {
+    public List<String> getUserNameList() {
         return userNameList;
     }
 
-    public Collection<Integer> getUserIdList() {
+    public List<Integer> getUserIdList() {
         return userIdList;
     }
 
@@ -42,10 +42,16 @@ public class Admin implements Writable {
         return location;
     }
 
+    public String getLocationName() {
+        return location.getLocationName();
+    }
+
     // MODIFIES: this
     // EFFECTS: add user to userList
     public void addUser(User user) {
         userList.add(user);
+        addUserName(user.getUserName());
+        addUserId(user.getId());
     }
 
     // MODIFIES: this
@@ -75,7 +81,6 @@ public class Admin implements Writable {
 
     @Override
     public JSONObject toJson() {
-        JSONArray jsonArray = new JSONArray();
         JSONObject json = new JSONObject();
         json.put("Admin", "Vancouver");
         json.put("User", usersToJson());

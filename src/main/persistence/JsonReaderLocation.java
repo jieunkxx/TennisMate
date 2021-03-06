@@ -1,7 +1,7 @@
 package persistence;
 
 
-import model.Location;
+import model.Locations.Location;
 import model.courts.Court;
 import model.users.User;
 import org.json.JSONArray;
@@ -44,8 +44,8 @@ public class JsonReaderLocation {
 
     // EFFECTS: parses location from JSON object and returns it
     private Location parseTarget(JSONObject jsonObject) {
-        String location = jsonObject.getString("Admin");
-        Location loc = new Location();
+        String locationName = jsonObject.getString("Admin");
+        Location loc = new Location(locationName);
         addCourts(loc, jsonObject);
         return loc;
     }

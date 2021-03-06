@@ -1,6 +1,6 @@
 package ui;
 
-import model.Location;
+import model.Locations.Location;
 import model.users.Admin;
 import model.users.Coach;
 import model.users.Player;
@@ -18,7 +18,7 @@ public class TennisMateApp {
 
     private static final String JSON_STORE = "./data/vancouver.json";
 
-    //private static final String LOCATION_NAME = "Vancouver";
+    private static final String LOCATION_NAME = "vancouver";
     private static final String DEFAULT_COURT_NAME = "NONE";
     private static final String UBC_COURT_NAME = "UBC";
     private static final String KITS_COURT_NAME = "Kits";
@@ -108,8 +108,8 @@ public class TennisMateApp {
     // MODIFIES: this
     // EFFECTS: initialize location and courts
     private void init() {
-        admin = new Admin();
-        vancouver = new Location();
+        vancouver = new Location(LOCATION_NAME);
+        admin = new Admin(vancouver);
         admin.setLocation(vancouver);
         //loadLocation(location);
         loadCourt(vancouver);
@@ -170,8 +170,8 @@ public class TennisMateApp {
             doLogIn();
         } else {
             int userId = admin.generateUserId();
-            admin.addUserName(userName);
-            admin.addUserId(userId);
+            //admin.addUserName(userName);
+            //admin.addUserId(userId);
             if (userType.equals("p")) {
                 user = new Player(userId, userName);
             } else if (userType.equals("c")) {
@@ -707,17 +707,17 @@ public class TennisMateApp {
         input.close();
     }
 
-    // EFFECTS: saves the location to file
-    private void saveLocation() {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(vancouver);
-            jsonWriter.close();
-            System.out.println("Saved " + JSON_STORE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
-        }
-    }
+//    // EFFECTS: saves the location to file
+//    private void saveLocation() {
+//        try {
+//            jsonWriter.open();
+//            jsonWriter.write(vancouver);
+//            jsonWriter.close();
+//            System.out.println("Saved " + JSON_STORE);
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Unable to write to file: " + JSON_STORE);
+//        }
+//    }
 
     // EFFECTS: saves the admin to file
     private void saveAdmin() {
@@ -749,7 +749,6 @@ public class TennisMateApp {
             admin = jsonReaderAdmin.readAdmin();
             vancouver = admin.getLocation();
             System.out.println("Loaded " + JSON_STORE);
-            System.out.println("1" + admin.getUserIdList());
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }

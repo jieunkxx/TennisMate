@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Location;
+import model.Locations.Location;
 import model.courts.Court;
 import model.users.Admin;
 import model.users.Coach;
@@ -47,16 +47,16 @@ public class JsonReaderAdmin {
 
     // EFFECTS: parses admin from JSON object and returns it
     private Admin parseAdmin(JSONObject jsonObject) {
-        Admin admin = new Admin();
-        Location vancouver = parseLocation(jsonObject);
-        addUser(admin, vancouver, jsonObject);
+        Location location = parseLocation(jsonObject);
+        Admin admin = new Admin(location);
+        addUser(admin, location, jsonObject);
         return admin;
     }
 
     // EFFECTS: parses location from JSON object and returns it
     private Location parseLocation(JSONObject jsonObject) {
         String locationName = jsonObject.getString("Admin");
-        Location location = new Location();
+        Location location = new Location(locationName);
         ui.TennisMateApp.loadCourt(location);
         return location;
     }
@@ -118,21 +118,17 @@ public class JsonReaderAdmin {
 //                court = loc.lookingUpCourtByName(name);
 //            }
             Court court = loc.lookingUpCourtByName(name);
-            System.out.println("court " + court.getCourtName());
             court.addUser(user);
-            System.out.println("court2 " + court.getUsers());
             user.addPreferredCourt(court);
-            System.out.println("court " + court.getUsers() + court.getCourtName());
-
         }
     }
 
     // MODIFIES: admin
-    // EFFECTS: add user to admin
+    // EFFECTS: add user to admin and set the location
     private void addToAdmin(Admin admin, Location loc, User user) {
         admin.addUser(user);
-        admin.addUserName(user.getUserName());
-        admin.addUserId(user.getId());
+        //admin.addUserName(user.getUserName());
+        //admin.addUserId(user.getId());
         admin.setLocation(loc);
     }
 

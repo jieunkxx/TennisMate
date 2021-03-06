@@ -1,5 +1,6 @@
-package model;
+package model.Locations;
 
+import model.Locations.Location;
 import model.courts.Court;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class LocationTest {
 
     @BeforeEach
     public void runBefore() {
-        testLocation = new Location();
+        testLocation = new Location("testLocation");
         courts = new HashSet<>();
         testCourt = new Court("testCourt");
         testCourt1 = new Court("testCourt1");
@@ -64,6 +65,12 @@ public class LocationTest {
         assertTrue(testLocation.getCourts().containsAll(testCourtList));
     }
 
+    @Test
+    public void testSetLocationName() {
+        assertEquals("testLocation", testLocation.getLocationName());
+        testLocation.setLocationName("test");
+        assertEquals("test", testLocation.getLocationName());
+    }
 
     @Test
     void testLookingupCourtByName() {
@@ -74,6 +81,8 @@ public class LocationTest {
         assertEquals(testCourt1, testLocation.lookingUpCourtByName("testCourt1"));
 
     }
+
+
 
 
 
