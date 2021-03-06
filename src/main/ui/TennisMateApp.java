@@ -718,6 +718,8 @@ public class TennisMateApp {
 //        }
 //    }
 
+
+    //This code is referred to the JSonSerializationDemo example
     // EFFECTS: saves the admin to file
     private void saveAdmin() {
         try {
@@ -741,6 +743,7 @@ public class TennisMateApp {
 //        }
 //    }
 
+    //This code is referred to the JSonSerializationDemo example
     // MODIFIES: this
     // EFFECTS: loads admin from file
     private void loadAdmin() {

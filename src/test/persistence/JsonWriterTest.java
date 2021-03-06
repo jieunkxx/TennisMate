@@ -16,6 +16,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/*
+This code is referred to the JSonSerializationDemo example
+ */
+
 public class JsonWriterTest {
 
     Location vancouver;

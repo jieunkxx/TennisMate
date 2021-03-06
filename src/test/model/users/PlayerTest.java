@@ -64,6 +64,14 @@ class PlayerTest {
 //    }
 
     @Test
+    public void testLookingupCourtByName() {
+        assertFalse(testPlayer.lookingupCourtByName(testCourt1.getCourtName()));
+        testPlayer.addPreferredCourt(testCourt1);
+        assertTrue(testPlayer.lookingupCourtByName(testCourt1.getCourtName()));
+
+    }
+
+    @Test
     public void testSetLevel() {
         assertEquals("novice", testPlayer.getLevel());
         testPlayer.setLevel("intermediate");

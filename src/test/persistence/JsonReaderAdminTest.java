@@ -14,6 +14,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+This code is referred to the JSonSerializationDemo example
+ */
+
 public class JsonReaderAdminTest {
 
     private Player testUser1;
