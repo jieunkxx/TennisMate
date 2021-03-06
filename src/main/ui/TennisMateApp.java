@@ -1,13 +1,12 @@
 package ui;
 
-import model.Locations.Location;
+import model.locations.Location;
 import model.users.Admin;
 import model.users.Coach;
 import model.users.Player;
 import model.courts.Court;
 import model.users.User;
 import persistence.JsonReaderAdmin;
-import persistence.JsonReaderLocation;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
@@ -28,7 +27,7 @@ public class TennisMateApp {
     private Scanner input;
     private boolean runProgram;
     private JsonWriter jsonWriter;
-    private JsonReaderLocation jsonReaderLocation;
+    //private JsonReaderLocation jsonReaderLocation;
     private JsonReaderAdmin jsonReaderAdmin;
 
     private Admin admin;
@@ -119,7 +118,7 @@ public class TennisMateApp {
 //        userList = new HashSet<>();
         runProgram = true;
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReaderLocation = new JsonReaderLocation(JSON_STORE);
+        //jsonReaderLocation = new JsonReaderLocation(JSON_STORE);
         jsonReaderAdmin = new JsonReaderAdmin(JSON_STORE);
     }
 
@@ -731,16 +730,16 @@ public class TennisMateApp {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: loads location from file
-    private void loadLocation() {
-        try {
-            vancouver = jsonReaderLocation.read();
-            System.out.println("Loaded " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
-    }
+//    // MODIFIES: this
+//    // EFFECTS: loads location from file
+//    private void loadLocation() {
+//        try {
+//            vancouver = jsonReaderLocation.read();
+//            System.out.println("Loaded " + JSON_STORE);
+//        } catch (IOException e) {
+//            System.out.println("Unable to read from file: " + JSON_STORE);
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: loads admin from file

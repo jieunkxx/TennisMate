@@ -1,10 +1,7 @@
-package model.Locations;
+package model.locations;
 
 import model.courts.Court;
 import model.users.User;
-import persistence.Writable;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 import java.util.Collection;

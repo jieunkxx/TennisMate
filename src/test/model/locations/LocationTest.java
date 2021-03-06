@@ -1,6 +1,5 @@
-package model.Locations;
+package model.locations;
 
-import model.Locations.Location;
 import model.courts.Court;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

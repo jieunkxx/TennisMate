@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Locations.Location;
+import model.locations.Location;
 import model.courts.Court;
 import model.users.Admin;
 import model.users.Coach;

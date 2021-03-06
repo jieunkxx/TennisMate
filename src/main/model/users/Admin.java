@@ -1,6 +1,6 @@
 package model.users;
 
-import model.Locations.Location;
+import model.locations.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;

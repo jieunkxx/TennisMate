@@ -12,7 +12,7 @@ The application will generate setup, and will allow the user to:
 - Check their account information
 - Assign available time slot
 - Define their skill level - novice/intermediate/advanced
-- Declare their status - looking for a tennis mate
+- Declare their status - looking for a tennis mate (y/n)
 - Choose tennis courts among the registered courts in vancouver in the system
 
 This application will provide a user information in the chosen courts:
@@ -34,7 +34,5 @@ This application aims to minimize the effort to find a right match based on user
 - As a user, I want to be able to see players assigned in my preferred courts.
 - As a user, I want to be able to filter players by their timeslot.
 - As a user, I want to be able to filter players by their status.
-- As a user, when I quit, I want to be able to save my user account information to file.
-- As a user, when I log in with my user name to the system, I want to be able to load my user account from file.
-- As a user, I want to be able to save courts information to file.
-- As a user, I want to be able to be able to load courts information form file.
+- As a user, I want to be able to save all user accounts information to file.
+- As a user, I want to be able to load my user account from file, and login when I log in with the information to the system.
