@@ -77,10 +77,10 @@ public class CourtTest {
         testCourt.addUser(testCoach3);
 
         assertEquals(3, testCourt.getPlayers().size());
-        assertTrue(testCourt.getCoaches().containsAll(testCoachList));
-        assertFalse(testCourt.getCoaches().contains(testPlayer1));
-        assertFalse(testCourt.getCoaches().contains(testPlayer2));
-        assertFalse(testCourt.getCoaches().contains(testPlayer3));
+        assertTrue(testCourt.getPlayers().containsAll(testUserList));
+        assertFalse(testCourt.getPlayers().contains(testCoach1));
+        assertFalse(testCourt.getPlayers().contains(testCoach2));
+        assertFalse(testCourt.getPlayers().contains(testCoach3));
     }
 
     @Test
@@ -93,11 +93,11 @@ public class CourtTest {
         testCourt.addUser(testCoach2);
         testCourt.addUser(testCoach3);
 
-        assertEquals(3, testCourt.getPlayers().size());
-        assertTrue(testCourt.getPlayers().containsAll(testUserList));
-        assertFalse(testCourt.getPlayers().contains(testCoach1));
-        assertFalse(testCourt.getPlayers().contains(testCoach2));
-        assertFalse(testCourt.getPlayers().contains(testCoach3));
+        assertEquals(3, testCourt.getCoaches().size());
+        assertFalse(testCourt.getCoaches().containsAll(testUserList));
+        assertTrue(testCourt.getCoaches().contains(testCoach1));
+        assertTrue(testCourt.getCoaches().contains(testCoach2));
+        assertTrue(testCourt.getCoaches().contains(testCoach3));
 
     }
     @Test
