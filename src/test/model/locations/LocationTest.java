@@ -76,7 +76,6 @@ public class LocationTest {
         testLocation.addCourt(testCourt1);
         testLocation.addCourt(testCourt2);
         testLocation.addCourt(testCourt3);
-        System.out.println(testLocation.getCourts());
         assertEquals(testCourt1, testLocation.lookingUpCourtByName("testCourt1"));
 
     }

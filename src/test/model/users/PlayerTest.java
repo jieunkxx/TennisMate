@@ -116,7 +116,6 @@ class PlayerTest {
         testPlayer.addTimeSlot(4);
         testPlayer.addTimeSlot(7);
         testPlayer.addTimeSlot(15);
-        System.out.println(testPlayer.getTimeSlot());
         assertTrue(testPlayer.getTimeSlot().contains(15));
         assertTrue(testPlayer.getTimeSlot().contains(4));
         assertTrue(testPlayer.getTimeSlot().contains(7));

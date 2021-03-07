@@ -83,10 +83,15 @@ public class TennisMateApp {
         } else if (cmd.equals("save")) {
             //saveLocation();
             saveAdmin();
+            displayMenu();
+            cmd = getUserInputString();
+            loginCommand(cmd);
         } else if (cmd.equals("load")) {
             //loadLocation();
             loadAdmin();
-
+            displayMenu();
+            cmd = getUserInputString();
+            loginCommand(cmd);
         } else {
             System.out.println("Selection not valid...");
             displayMenu();
@@ -551,9 +556,9 @@ public class TennisMateApp {
     //EFFECTS: print court setup menu
     private void printCourtSetup() {
         System.out.println("\nYou are in court" + court.getCourtName());
-        System.out.println("Enter 'all' to lookup all players");
-        System.out.println("Enter 'active' to lookup players who are looking for a tennis mate");
-        System.out.println("Enter 'time' to lookup players who are available in selected time slot");
+        System.out.println("Enter 'all' to lookup all users");
+        System.out.println("Enter 'active' to lookup users who are looking for a tennis mate");
+        System.out.println("Enter 'time' to lookup users who are available in selected time slot");
         System.out.println("Enter 'main' to go back to main menu");
     }
 
@@ -573,7 +578,7 @@ public class TennisMateApp {
                     courtSetup();
                     break;
                 case "time":
-                    courtSetupPlayersInSelectedTimeSlot();
+                    courtSetupUsersInSelectedTimeSlot();
                     courtSetup();
                     break;
                 case "main":
@@ -598,72 +603,66 @@ public class TennisMateApp {
     // EFFECTS: prints all players name assigned to this court
     private void courtSetupAllPlayers() {
         Collection<String> allPlayersList = new TreeSet<>();
-        for (User u : court.getUsers()) {
-            if (u.getType().equals("player")) {
-                allPlayersList.add(u.getUserName());
-            }
+        for (User u : court.getPlayers()) {
+            allPlayersList.add(u.getUserName());
         }
         //if (allPlayersList.isEmpty()) {
         //    System.out.println("There is no one signed in " + court.getCourtName());
         //} else {
         System.out.println("Players: " + allPlayersList);
-        //}
     }
 
     // EFFECTS: prints all coach name assigned to this court
     private void courtSetupAllCoaches() {
         Collection<String> allCoachesList = new TreeSet<>();
         for (User u : court.getCoaches()) {
-            if (u.getType().equals("coach")) {
-                allCoachesList.add(u.getUserName());
-            }
+            allCoachesList.add(u.getUserName());
         }
         System.out.println("Coaches: " + allCoachesList);
     }
 
-
     // EFFECTS: prints players name whose status are true in this court
     private void courtSetupActiveUsers() {
-        System.out.println("players who are looking for a tennis mate:");
-        HashSet<String> activePlayersList = new HashSet<>();
+        System.out.println("Users who are looking for a tennis mate:");
+        HashSet<String> activeUsersList = new HashSet<>();
         for (User u : court.lookupUserByStatusTrue()) {
-            activePlayersList.add(u.getUserName());
+            activeUsersList.add(u.getUserName());
         }
-        if (activePlayersList.isEmpty()) {
+        if (activeUsersList.isEmpty()) {
             System.out.println("There is no one looking for a tennis mate in " + court.getCourtName());
         }
-        TreeSet<String> sortedActivePlayersList = new TreeSet<>(activePlayersList);
-        System.out.println(sortedActivePlayersList);
+        TreeSet<String> sortedActiveUsersList = new TreeSet<>(activeUsersList);
+        System.out.println(sortedActiveUsersList);
     }
 
-    // EFFECTS: prints players name whose time slot contains selected time slot
-    private void courtSetupPlayersInSelectedTimeSlot() {
+    // EFFECTS: prints users name whose time slot contains selected time slot
+    private void courtSetupUsersInSelectedTimeSlot() {
         System.out.println("Enter time slot From (0 - 23) :");
         int from = Integer.parseInt(getUserInputString());
         System.out.println("To (0 - 23): ");
         int to = Integer.parseInt(getUserInputString());
         if (from < 0 || from > 23 || to < 0 || to > 23) {
             System.out.println("Input invalid");
-            courtSetupPlayersInSelectedTimeSlot();
+            courtSetupUsersInSelectedTimeSlot();
         }
         List<Integer> selectedTime = new ArrayList<>();
         for (int i = from; i <= to; i++) {
             selectedTime.add(i);
         }
         Collection<String> usersInSelectedTimeSlot = new HashSet<>();
-        for (Player p : court.getPlayers()) {
+        for (User u : court.getUsers()) {
             for (Integer i : selectedTime) {
-                if (p.getTimeSlot().contains(i)) {
-                    usersInSelectedTimeSlot.add(p.getUserName());
+                if (u.getTimeSlot().contains(i)) {
+                    usersInSelectedTimeSlot.add(u.getUserName());
                 }
             }
         }
         TreeSet<String> sortedUserInSelectedTimeSlotList = new TreeSet<>(usersInSelectedTimeSlot);
-        System.out.println("Players from " + from + " to " + to + " are: " + sortedUserInSelectedTimeSlotList);
+        System.out.println("Users from " + from + " to " + to + " are: " + sortedUserInSelectedTimeSlotList);
         printUserTimeSlot(sortedUserInSelectedTimeSlotList);
     }
 
-    // EFFECTS: prints players name with their time slot
+    // EFFECTS: prints users name with their time slot
     private void printUserTimeSlot(TreeSet list) {
         System.out.println("Enter 'y' to see the users' all available time");
         System.out.println("Enter any key to go back");

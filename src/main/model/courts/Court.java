@@ -13,8 +13,8 @@ import java.util.*;
 public class Court {
 //public class Court implements Writable {
     private String courtName;               // court name
-    private Collection<Player> players;     // list of players assigned to this court
-    private Collection<Coach> coaches;
+    private Collection<User> players;     // list of players assigned to this court
+    private Collection<User> coaches;
     private Collection<User> users;     // list of players assigned to this court
 
     //REQUIRES: courtName has a non-zero length
@@ -31,16 +31,26 @@ public class Court {
         return courtName;
     }
 
-    public Collection<Player> getPlayers() {
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    public Collection<User> getPlayers() {
+        for (User u : users) {
+            if (u.getType().equalsIgnoreCase("player")) {
+                players.add(u);
+            }
+        }
         return players;
     }
 
-    public Collection<Coach> getCoaches() {
+    public Collection<User> getCoaches() {
+        for (User u : users) {
+            if (u.getType().equalsIgnoreCase("coach")) {
+                coaches.add(u);
+            }
+        }
         return coaches;
-    }
-
-    public Collection<User> getUsers() {
-        return users;
     }
 
     // REQUIRES: user != null

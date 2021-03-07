@@ -108,6 +108,7 @@ public class User implements Writable {
     //EFFECTS: adds the given court to user's preferred court list
     public void addPreferredCourt(Court court) {
         courts.add(court);
+
     }
 
     //REQUIRES: court != null
