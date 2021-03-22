@@ -1,9 +1,10 @@
 package ui;
 
+
 import model.courts.Court;
 import model.locations.Location;
 import model.users.Admin;
-import model.users.Coach;
+
 import model.users.Player;
 import model.users.User;
 import persistence.JsonReaderAdmin;
@@ -23,6 +24,7 @@ import static ui.TennisMateApp.*;
 public class TennisMateGUI extends JFrame implements ActionListener {
 
     private static final String JSON_STORE = "./data/vancouverGUI.json";
+    private static final ImageIcon popupicon = new ImageIcon("./data/error.png");
 
     private Admin admin;
     private Location vancouver;
@@ -164,7 +166,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     public void comboCourts() {
-
         this.courts.addItem("Kits");
         this.courts.addItem("StanleyPark");
         this.courts.addItem("UBC");
@@ -184,24 +185,14 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         vancouver = new Location(LOCATION_NAME);
         admin = new Admin(vancouver);
         admin.setLocation(vancouver);
-        //loadLocation(location);
         loadCourt(vancouver);
-        //loadPlayer(player);
-//        userIdList = new HashSet<>();
-//        userNameList = new HashSet<>();
-//        userList = new HashSet<>();
-//        runProgram = true;
         jsonWriter = new JsonWriter(JSON_STORE);
-        //jsonReaderLocation = new JsonReaderLocation(JSON_STORE);
         jsonReaderAdmin = new JsonReaderAdmin(JSON_STORE);
     }
 
     // MODIFIES: this
     // EFFECTS: initialize courts in location
     public static void loadCourt(Location location) {
-
-        //Court c0 = new Court(DEFAULT_COURT_NAME);
-        //location.addCourt(c0);
 
         Court c1 = new Court(UBC_COURT_NAME);
         location.addCourt(c1);
@@ -221,6 +212,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private void login(String userName) {
         if (!admin.getUserNameList().contains(userName)) {
             loginUser = null;
+            JOptionPane.showMessageDialog(null, null, "login failed", JOptionPane.ERROR_MESSAGE, popupicon);
             statusMsg.setText("login failed");
             loginUserL.setText("login User : ");
         } else {
@@ -235,11 +227,18 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     private void signUp(String userName) {
-        int userId = admin.generateUserId();
-        loginUser = new Player(userId, userName);
-        admin.addUser(loginUser);
-        statusMsg.setText("signUp succeed");
-        loginUserL.setText("login user : " + loginUser.getUserName());
+        if (userName.length() == 0) {
+            JOptionPane.showMessageDialog(null, null,
+                    "SignUp Failed! Please Enter valid user name", JOptionPane.ERROR_MESSAGE, popupicon);
+            statusMsg.setText("SignUp Failed! Please Enter valid user name");
+        } else {
+            int userId = admin.generateUserId();
+            loginUser = new Player(userId, userName);
+            admin.addUser(loginUser);
+            System.out.println(loginUser.getUserName());
+            statusMsg.setText("signUp succeed");
+            loginUserL.setText("login user : " + loginUser.getUserName());
+        }
     }
 
     private Collection<String> getUsersInCourt(Court court) {
@@ -256,6 +255,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             court.addUser(loginUser);
             statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
         } else {
+            JOptionPane.showMessageDialog(null, null,
+                    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupicon);
             statusMsg.setText("Action Failed! No one is on the system");
         }
     }
@@ -281,7 +282,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
@@ -289,7 +289,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             case "login":
                 login(userNameF.getText());
                 break;
-            case "signup":
+            case "signUp":
                 signUp(userNameF.getText());
                 break;
             case "courtInfo":
