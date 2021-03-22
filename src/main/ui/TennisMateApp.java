@@ -17,12 +17,11 @@ public class TennisMateApp {
 
     private static final String JSON_STORE = "./data/vancouver.json";
 
-    private static final String LOCATION_NAME = "vancouver";
-    private static final String DEFAULT_COURT_NAME = "NONE";
-    private static final String UBC_COURT_NAME = "UBC";
-    private static final String KITS_COURT_NAME = "Kits";
-    private static final String STANLEY_PARK_COURT_NAME = "StanleyPark";
-
+    public static final String LOCATION_NAME = "vancouver";
+    public static final String DEFAULT_COURT_NAME = "NONE";
+    public static final String UBC_COURT_NAME = "UBC";
+    public static final String KITS_COURT_NAME = "Kits";
+    public static final String STANLEY_PARK_COURT_NAME = "StanleyPark";
 
     private Scanner input;
     private boolean runProgram;
@@ -105,7 +104,7 @@ public class TennisMateApp {
         System.out.println("Enter 's' to signUp if you don't have account");
         System.out.println("Enter 'q' to quit");
         System.out.println("Enter 'save' to save");
-        System.out.println("Enter 'load' to save");
+        System.out.println("Enter 'load' to load");
     }
 
 

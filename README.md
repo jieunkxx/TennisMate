@@ -36,3 +36,4 @@ This application aims to minimize the effort to find a right match based on user
 - As a user, I want to be able to filter players by their status.
 - As a user, I want to be able to save all user accounts information to file.
 - As a user, I want to be able to load my user account from file, and login with the information to the system.
+- As a user, I want to be able to load and save the state of the application.
