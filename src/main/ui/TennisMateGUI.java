@@ -24,7 +24,7 @@ import static ui.TennisMateApp.*;
 public class TennisMateGUI extends JFrame implements ActionListener {
 
     private static final String JSON_STORE = "./data/vancouverGUI.json";
-    private static final ImageIcon popupicon = new ImageIcon("./data/error.png");
+    private static final ImageIcon errorIcon = new ImageIcon("./data/error.png");
 
     private Admin admin;
     private Location vancouver;
@@ -73,17 +73,23 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private JComboBox<String> level = new JComboBox<>();
     private JComboBox<String> times = new JComboBox<>();
 
+    /* Image */
+    private ImageIcon popupError;
+
+
     public TennisMateGUI() {
         super("TennisMate UI");
         //   vancouver = new Location(LOCATION_NAME);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        initImage();
         initPanel();
         addPanel();
         addButton();
         comboCourts();
         comboTimeSlot();
+
 
 
         signupBtn.addActionListener(this);
@@ -97,6 +103,10 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         init();
         setVisible(true);
 
+    }
+
+    public void initImage() {
+        popupError = new ImageIcon(errorIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
     }
 
     public void initPanel() {
@@ -212,7 +222,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private void login(String userName) {
         if (!admin.getUserNameList().contains(userName)) {
             loginUser = null;
-            JOptionPane.showMessageDialog(null, null, "login failed", JOptionPane.ERROR_MESSAGE, popupicon);
+            JOptionPane.showMessageDialog(null, null, "login failed", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("login failed");
             loginUserL.setText("login User : ");
         } else {
@@ -229,7 +239,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private void signUp(String userName) {
         if (userName.length() == 0) {
             JOptionPane.showMessageDialog(null, null,
-                    "SignUp Failed! Please Enter valid user name", JOptionPane.ERROR_MESSAGE, popupicon);
+                    "SignUp Failed! Please Enter valid user name", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("SignUp Failed! Please Enter valid user name");
         } else {
             int userId = admin.generateUserId();
@@ -256,7 +266,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
         } else {
             JOptionPane.showMessageDialog(null, null,
-                    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupicon);
+                    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("Action Failed! No one is on the system");
         }
     }
