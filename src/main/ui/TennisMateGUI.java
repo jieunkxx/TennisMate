@@ -32,7 +32,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private User loginUser;
 
     private JsonWriter jsonWriter;
-    //private JsonReaderLocation jsonReaderLocation;
     private JsonReaderAdmin jsonReaderAdmin;
 
 
@@ -66,6 +65,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     JButton loadBtn = new JButton("load");
 
     JButton selectCourtBtn = new JButton("add");
+    JButton removeCourtBtn = new JButton("remove");
     JButton checkCourtBtn = new JButton("courtInfo");
 
     /* Combo Box */
@@ -90,13 +90,12 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         comboCourts();
         comboTimeSlot();
 
-
-
         signupBtn.addActionListener(this);
         loginBtn.addActionListener(this);
         saveBtn.addActionListener(this);
         loadBtn.addActionListener(this);
         selectCourtBtn.addActionListener(this);
+        removeCourtBtn.addActionListener(this);
         checkCourtBtn.addActionListener(this);
 
         pack();
@@ -111,7 +110,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     public void initPanel() {
         centerPanel.setPreferredSize(new Dimension(260, 80));
-        westPanel.setPreferredSize(new Dimension(210, 75));
+        westPanel.setPreferredSize(new Dimension(200, 75));
         eastPanel.setPreferredSize(new Dimension(90, 75));
         mainPanel.setPreferredSize(new Dimension(260, 300));
         mainNorthPanel.setPreferredSize(new Dimension(260, 50));
@@ -130,6 +129,29 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         courts.setPreferredSize(new Dimension(200, 30));
 
     }
+
+    /*
+    public void addPanel() {
+
+        setContentPane(basePanel);
+        basePanel.add(centerPanel, BorderLayout.CENTER);
+        basePanel.add(mainPanel, BorderLayout.SOUTH);
+
+        centerPanel.add(westPanel, BorderLayout.WEST);
+        centerPanel.add(eastPanel, BorderLayout.EAST);
+
+        mainPanel.add(mainNorthPanel, BorderLayout.NORTH);
+        mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
+        mainPanel.add(mainBottomPanel, BorderLayout.SOUTH);
+
+        westPanel.setLayout(new FlowLayout());
+        eastPanel.setLayout(new FlowLayout());
+        mainNorthPanel.setLayout(new GridLayout(2, 2));
+        mainCenterPanel.setLayout(new FlowLayout());
+        mainBottomPanel.setLayout(new FlowLayout());
+
+    }
+    */
 
     public void addPanel() {
 
@@ -167,6 +189,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         mainCenterPanel.add(courtsL);
         mainCenterPanel.add(courts);
         mainCenterPanel.add(selectCourtBtn);
+        mainCenterPanel.add(removeCourtBtn);
         mainCenterPanel.add(checkCourtBtn);
         mainCenterPanel.add(times);
 
@@ -261,12 +284,32 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     private void addCourtToUser() {
         if (loginUser != null) {
-            loginUser.addPreferredCourt(court);
-            court.addUser(loginUser);
-            statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
+            if (loginUser.getPreferredCourt().contains(court)) {
+                statusMsg.setText(court.getCourtName() + " already in " + loginUser.getUserName() + " 's court");
+            } else {
+                loginUser.addPreferredCourt(court);
+                court.addUser(loginUser);
+                statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
+            }
         } else {
             JOptionPane.showMessageDialog(null, null,
                     "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupError);
+            statusMsg.setText("Action Failed! No one is on the system");
+        }
+    }
+
+    private void removeCourtFromUser() {
+        if (loginUser != null) {
+            if (loginUser.getPreferredCourt().contains(court)) {
+                loginUser.removePreferredCourt(court);
+                court.removeUser(loginUser);
+                statusMsg.setText(court.getCourtName() + "is removed in " + loginUser.getUserName() + " 's court");
+            } else {
+                statusMsg.setText(court.getCourtName() + "is not in " + loginUser.getUserName() + " 's court");
+            }
+        } else {
+            //JOptionPane.showMessageDialog(null, null,
+            //    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("Action Failed! No one is on the system");
         }
     }
@@ -292,6 +335,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+/*
     @Override
     public void actionPerformed(ActionEvent e) {
         court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
@@ -308,6 +352,9 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             case "add":
                 addCourtToUser();
                 break;
+            case "remove":
+                removeCourtFromUser();
+                break;
             case "load":
                 loadData();
             case "save":
@@ -316,5 +363,34 @@ public class TennisMateGUI extends JFrame implements ActionListener {
                 break;
         }
     }
+*/
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
+        if (e.getActionCommand() == "login") {
+            login(userNameF.getText());
+        }
+        if (e.getActionCommand() == "signUp") {
+            signUp(userNameF.getText());
+        }
+        if (e.getActionCommand() == "courtInfo") {
+            statusMsg.setText("users in " + court.getCourtName() + " : " + getUsersInCourt(court));
+        }
+        if (e.getActionCommand() == "add") {
+            addCourtToUser();
+        }
+        if (e.getActionCommand() == "remove") {
+            removeCourtFromUser();
+        }
+        if (e.getActionCommand() == "load") {
+            loadData();
+        }
+        if (e.getActionCommand() == "save") {
+            saveData();
+        }
+    }
+
 }
 
