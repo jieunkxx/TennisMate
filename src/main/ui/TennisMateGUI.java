@@ -104,10 +104,14 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initialize error pop-up image
     public void initImage() {
         popupError = new ImageIcon(errorIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initialize panels
     public void initPanel() {
         centerPanel.setPreferredSize(new Dimension(260, 80));
         westPanel.setPreferredSize(new Dimension(200, 75));
@@ -153,6 +157,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
     */
 
+    //MODIFIES: this
+    //EFFECTS: Add panels
     public void addPanel() {
 
         setContentPane(basePanel);
@@ -174,6 +180,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: Add buttons in panels
     public void addButton() {
 
         westPanel.add(userNameL);
@@ -198,12 +206,16 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: Add courts selections
     public void comboCourts() {
         this.courts.addItem("Kits");
         this.courts.addItem("StanleyPark");
         this.courts.addItem("UBC");
     }
 
+    //MODIFIES: this
+    //EFFECTS: Add time slot selections
     public void comboTimeSlot() {
         int i;
         for (i = 1; i <= 23; i++) {
@@ -242,6 +254,9 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         new TennisMateGUI();
     }
 
+    //MODIFIES: this
+    //EFFECTS: find login user from the user input in the user field, if found, login succeed, otherwise, failed and
+    //          pops up the error image and msg.
     private void login(String userName) {
         if (!admin.getUserNameList().contains(userName)) {
             loginUser = null;
@@ -259,6 +274,9 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: sign up using the user input in the user field, if no user input found,
+    //         failed and pops up the error image and msg.
     private void signUp(String userName) {
         if (userName.length() == 0) {
             JOptionPane.showMessageDialog(null, null,
@@ -274,6 +292,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+    // EFFECTS: find user in the court selected from the court selection
     private Collection<String> getUsersInCourt(Court court) {
         Collection<String> usersList = new HashSet<>();
         for (User u : court.getUsers()) {
@@ -282,6 +301,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         return usersList;
     }
 
+    // MODIFIES : this
+    // EFFECTS: add login user to the court selected from the court selection
     private void addCourtToUser() {
         if (loginUser != null) {
             if (loginUser.getPreferredCourt().contains(court)) {
@@ -298,6 +319,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES : this
+    // EFFECTS: remove login user from the court selected from the court selection
     private void removeCourtFromUser() {
         if (loginUser != null) {
             if (loginUser.getPreferredCourt().contains(court)) {
@@ -314,6 +337,10 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+
+    //This code is referred to the JSonSerializationDemo example
+    // MODIFIES: this
+    // EFFECTS: loads from file
     private void loadData() {
         try {
             admin = jsonReaderAdmin.readAdmin();
@@ -324,6 +351,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+    //This code is referred to the JSonSerializationDemo example
+    // EFFECTS: saves the admin to file
     private void saveData() {
         try {
             jsonWriter.open();
