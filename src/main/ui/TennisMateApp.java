@@ -1,5 +1,7 @@
 package ui;
 
+import exceptions.CourtException;
+import exceptions.CourtNullException;
 import model.locations.Location;
 import model.users.Admin;
 import model.users.Coach;
@@ -388,7 +390,7 @@ public class TennisMateApp {
             addCourt();
         }
         loginUser.addPreferredCourt(court);
-        court.addUser(loginUser);
+        //court.addUser(loginUser);
         printUpdatedCourt(loginUser);
         System.out.println("Enter 'add' to add a court");
         System.out.println("Enter any key to go back to user setup menu");
@@ -409,12 +411,11 @@ public class TennisMateApp {
         String courtName = getUserInputString();
         court = vancouver.lookingUpCourtByName(courtName);
         if (loginUser.getPreferredCourt().contains(court)) {
-            System.out.println("contained");
             loginUser.removePreferredCourt(court);
-            court.removeUser(loginUser);
+            //court.removeUser(loginUser);
             printUpdatedCourt(loginUser);
         } else {
-            System.out.println(courtName + "is Not in your preferred Court. Please choose again");
+            System.out.println(courtName + " is Not in your preferred Court. Please choose again");
             accountSetupCourt();
         }
         System.out.println("Enter 'remove' to remove a court");

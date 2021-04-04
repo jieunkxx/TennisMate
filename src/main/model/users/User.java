@@ -1,5 +1,7 @@
 package model.users;
 
+import exceptions.CourtException;
+import exceptions.CourtNullException;
 import model.courts.Court;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,19 +105,25 @@ public class User implements Writable {
         this.level = level;
     }
 
+    // bi-directional user <-> court
     //REQUIRES: court != null
     //MODIFIES: this
     //EFFECTS: adds the given court to user's preferred court list
     public void addPreferredCourt(Court court) {
-        courts.add(court);
-
+        if (!courts.contains(court)) {
+            courts.add(court);
+            court.addUser(this);
+        }
     }
 
-    //REQUIRES: court != null
+    // bi-directional user <-> court
     //MODIFIES: this
     //EFFECTS: removes the given court from user's preferred court list
     public void removePreferredCourt(Court court) {
-        courts.remove(court);
+        if (courts.contains(court)) {
+            courts.remove(court);
+            court.removeUser(this);
+        }
     }
 
     //REQUIRES: time slots : 0 ~ 23

@@ -135,4 +135,6 @@ class PlayerTest {
         testPlayer.setStatus(true);
         assertTrue(testPlayer.getStatus());
     }
+
+
 }

@@ -1,6 +1,8 @@
 package ui;
 
 
+import exceptions.CourtException;
+import exceptions.CourtNullException;
 import model.courts.Court;
 import model.locations.Location;
 import model.users.Admin;
@@ -314,7 +316,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
                 statusMsg.setText(court.getCourtName() + " already in " + loginUser.getUserName() + " 's court");
             } else {
                 loginUser.addPreferredCourt(court);
-                court.addUser(loginUser);
+                //court.addUser(loginUser);
                 statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
             }
         } else {
@@ -324,13 +326,14 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
+
     // MODIFIES : this
     // EFFECTS: remove login user from the court selected from the court selection
     private void removeCourtFromUser() {
         if (loginUser != null) {
             if (loginUser.getPreferredCourt().contains(court)) {
                 loginUser.removePreferredCourt(court);
-                court.removeUser(loginUser);
+                //court.removeUser(loginUser);
                 statusMsg.setText(court.getCourtName() + "is removed in " + loginUser.getUserName() + " 's court");
             } else {
                 statusMsg.setText(court.getCourtName() + "is not in " + loginUser.getUserName() + " 's court");

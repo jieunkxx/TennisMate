@@ -1,5 +1,7 @@
 package model.courts;
 
+import exceptions.CourtException;
+import exceptions.CourtNullException;
 import model.users.User;
 
 import java.util.*;
@@ -47,18 +49,26 @@ public class Court {
         return coaches;
     }
 
+    // bi-directional user <-> court
     // REQUIRES: user != null
     // MODIFIES: this
     // EFFECTS: adds player to this court
     public void addUser(User user) {
-        users.add(user);
+        if (!users.contains(user)) {
+            users.add(user);
+            user.addPreferredCourt(this);
+        }
     }
 
-    // REQUIRES: user != null && The user is assigned to the court
+    // bi-directional user <-> court
+    // REQUIRES: user != null
     // MODIFIES: this
     // EFFECTS: removes player from this court
     public void removeUser(User user) {
-        users.remove(user);
+        if (users.contains(user)) {
+            users.remove(user);
+            user.removePreferredCourt(this);
+        }
     }
 
     // EFFECTS: return user who has name "username"
