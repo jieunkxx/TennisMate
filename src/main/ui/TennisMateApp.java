@@ -409,6 +409,7 @@ public class TennisMateApp {
         String courtName = getUserInputString();
         court = vancouver.lookingUpCourtByName(courtName);
         if (loginUser.getPreferredCourt().contains(court)) {
+            System.out.println("contained");
             loginUser.removePreferredCourt(court);
             court.removeUser(loginUser);
             printUpdatedCourt(loginUser);
@@ -427,7 +428,7 @@ public class TennisMateApp {
     // EFFECTS: prints out user's preferred court list
     private void printUpdatedCourt(User loginUser) {
         System.out.println("\nYour preferred court list has been updated");
-        System.out.println("Your preferred courts are:");
+        System.out.println("Your preferred courts are : ");
         for (Court c : loginUser.getPreferredCourt()) {
             System.out.println(c.getCourtName());
         }

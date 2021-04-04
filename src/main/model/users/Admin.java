@@ -8,6 +8,10 @@ import persistence.Writable;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Admin class stores all users information
+ */
+
 public class Admin implements Writable {
 
     int userId;

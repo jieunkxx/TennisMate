@@ -111,7 +111,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     //MODIFIES: this
-    //EFFECTS: Initialize panels
+    //EFFECTS: Initialize JFrame window where the gui operates. set panels, labels, fields and buttons.
     public void initPanel() {
         centerPanel.setPreferredSize(new Dimension(260, 80));
         westPanel.setPreferredSize(new Dimension(200, 75));
@@ -158,7 +158,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     */
 
     //MODIFIES: this
-    //EFFECTS: Add panels
+    //EFFECTS: set layout of the panels
     public void addPanel() {
 
         setContentPane(basePanel);
@@ -181,7 +181,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     //MODIFIES: this
-    //EFFECTS: Add buttons in panels
+    //EFFECTS: Add buttons to the panels
     public void addButton() {
 
         westPanel.add(userNameL);
@@ -207,7 +207,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     //MODIFIES: this
-    //EFFECTS: Add courts selections
+    //EFFECTS: generates courts selections
     public void comboCourts() {
         this.courts.addItem("Kits");
         this.courts.addItem("StanleyPark");
@@ -215,7 +215,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     //MODIFIES: this
-    //EFFECTS: Add time slot selections
+    //EFFECTS: generates time slot selections
     public void comboTimeSlot() {
         int i;
         for (i = 1; i <= 23; i++) {
@@ -225,7 +225,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: initialize location and courts
+    // EFFECTS: initialize location, courts, file location.
     private void init() {
         vancouver = new Location(LOCATION_NAME);
         admin = new Admin(vancouver);
@@ -280,8 +280,12 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private void signUp(String userName) {
         if (userName.length() == 0) {
             JOptionPane.showMessageDialog(null, null,
-                    "SignUp Failed! Please Enter valid user name", JOptionPane.ERROR_MESSAGE, popupError);
+                    "SignUp Failed!", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("SignUp Failed! Please Enter valid user name");
+        } else if (admin.getUserNameList().contains(userName)) {
+            JOptionPane.showMessageDialog(null, null,
+                    "SignUp Failed!", JOptionPane.ERROR_MESSAGE, popupError);
+            statusMsg.setText("SignUp Failed! User Name exist.");
         } else {
             int userId = admin.generateUserId();
             loginUser = new Player(userId, userName);
@@ -291,6 +295,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             loginUserL.setText("login user : " + loginUser.getUserName());
         }
     }
+
 
     // EFFECTS: find user in the court selected from the court selection
     private Collection<String> getUsersInCourt(Court court) {
@@ -351,7 +356,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
-    //This code is referred to the JSonSerializationDemo example
+    // This code is referred to the JSonSerializationDemo example
     // EFFECTS: saves the admin to file
     private void saveData() {
         try {
@@ -363,36 +368,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             statusMsg.setText("Unable to write to file: " + JSON_STORE);
         }
     }
-
-/*
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
-        switch (e.getActionCommand()) {
-            case "login":
-                login(userNameF.getText());
-                break;
-            case "signUp":
-                signUp(userNameF.getText());
-                break;
-            case "courtInfo":
-                statusMsg.setText("users in " + court.getCourtName() + " : " + getUsersInCourt(court));
-                break;
-            case "add":
-                addCourtToUser();
-                break;
-            case "remove":
-                removeCourtFromUser();
-                break;
-            case "load":
-                loadData();
-            case "save":
-                saveData();
-            default:
-                break;
-        }
-    }
-*/
 
 
     @Override

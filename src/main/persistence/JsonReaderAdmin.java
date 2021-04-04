@@ -1,10 +1,8 @@
 package persistence;
 
-import model.locations.Location;
+import model.locations.*;
 import model.courts.Court;
-import model.users.Admin;
-import model.users.Coach;
-import model.users.Player;
+import model.users.*;
 import model.users.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,7 +117,7 @@ public class JsonReaderAdmin {
 //            }
             Court court = loc.lookingUpCourtByName(name);
             court.addUser(user);
-            user.addPreferredCourt(court);
+            //user.addPreferredCourt(court);
         }
     }
 
