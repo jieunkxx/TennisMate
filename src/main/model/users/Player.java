@@ -1,6 +1,9 @@
 package model.users;
 
-// Represents a player with id, preferred courts, time slots, level and status
+/*
+User type Player
+*/
+
 public class Player extends User {
 
     // REQUIRES: id is not taken by other user
@@ -10,8 +13,6 @@ public class Player extends User {
         super(id, userName);
         type = "player";
     }
-
-
 }
 
 

@@ -1,5 +1,10 @@
 package model.users;
 
+/*
+User type Coach
+fee will be implemented in the future.
+*/
+
 public class Coach extends User {
     private int fees;
 

@@ -1,7 +1,5 @@
 package ui;
 
-import exceptions.CourtException;
-import exceptions.CourtNullException;
 import model.locations.Location;
 import model.users.Admin;
 import model.users.Coach;
@@ -14,6 +12,8 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+
+// Run text based TennisMate app. //
 
 public class TennisMateApp {
 
@@ -472,24 +472,49 @@ public class TennisMateApp {
         System.out.println("Add timeSlot: Enter 0 - 23");
         String t = getUserInputString();
         int time = -1;
-        if (t.matches("-?\\d+(\\.\\d+)?")) {
+        if (t.matches("\\d\\d?")) {
             time = Integer.parseInt(t);
+            if (time < 0 || time > 23) {
+                invalidTime();
+            }
+            loginUser.addTimeSlot(time);
+            nextMoveAfterUpdateTimeslot("add");
+            String cmd = getUserInputString();
+            if (cmd.equals("add")) {
+                accountAddSetupTimeSlot();
+            } else {
+                System.out.println("Move to user setup menu..");
+            }
         } else {
-            System.out.println("Invalid input");
-            accountAddSetupTimeSlot();
+            invalidTime();
         }
-        if (time < 0 || time > 23) {
-            System.out.println("Invalid input");
-            accountAddSetupTimeSlot();
+    }
+
+    // EFFECT: recall accountAddSetupTimeSlot() method
+    private void invalidTime() {
+        System.out.println("Invalid input");
+        accountAddSetupTimeSlot();
+    }
+
+/*    private void checkTimeInput(String t) throws InvalidTimeException {
+        int time = -1;
+        if (t.matches("\\d\\d?")) {
+            time = Integer.parseInt(t);
+            if (time < 0 || time > 23) {
+                throw new InvalidTimeException();
+            }
+        } else {
+            throw new InvalidTimeException();
         }
         loginUser.addTimeSlot(time);
+        nextMoveAfterUpdateTimeslot("add");
+    }
+*/
+
+    private void nextMoveAfterUpdateTimeslot(String str) {
         System.out.println("Your available time has been updated :" + loginUser.getTimeSlot());
-        System.out.println("Enter 'add' to add more timeslot");
+        System.out.println("Enter '" + str + "' to " + str + " more timeslot");
         System.out.println("Enter any key to go back to user setup menu");
-        String cmd = getUserInputString();
-        if (cmd.equals("add")) {
-            accountAddSetupTimeSlot();
-        }
     }
 
     // REQUIRES: time [0 - 23]
@@ -498,20 +523,25 @@ public class TennisMateApp {
     private void accountRemoveSetupTime() {
         System.out.println("Remove timeSlot: Enter 0 - 23");
         String t = getUserInputString();
-        int time = Integer.parseInt(t);
-        if (time < 0 || time > 23) {
+        int time = -1;
+        if (t.matches("\\d\\d?")) {
+            time = Integer.parseInt(t);
+            if (time < 0 || time > 23) {
+                System.out.println("Invalid input");
+                accountRemoveSetupTime();
+            }
+            loginUser.removeTimeSlot(time);
+            nextMoveAfterUpdateTimeslot("remove");
+            String cmd = getUserInputString();
+            if (cmd.equals("remove")) {
+                accountRemoveSetupTime();
+            }
+        } else {
             System.out.println("Invalid input");
-            accountAddSetupTimeSlot();
-        }
-        loginUser.removeTimeSlot(time);
-        System.out.println("Your available time has been updated :" + loginUser.getTimeSlot());
-        System.out.println("Enter 'remove' to remove more timeslot");
-        System.out.println("Enter any key to go back to user setup menu");
-        String cmd = getUserInputString();
-        if (cmd.equals("remove")) {
-            accountAddSetupTimeSlot();
+            accountRemoveSetupTime();
         }
     }
+
 
     // MODIFIES: this
     // EFFECTS: sets up user's status
@@ -522,7 +552,7 @@ public class TennisMateApp {
         if (cmd.equals("y")) {
             loginUser.setStatus(true);
         } else if (cmd.equals("n")) {
-            loginUser.setStatus(true);
+            loginUser.setStatus(false);
         } else {
             System.out.println("Invalid Input");
             accountSetupStatus();
@@ -546,7 +576,7 @@ public class TennisMateApp {
         court = null;
         court = vancouver.lookingUpCourtByName(courtName);
         if (court == null) {
-            System.out.println(courtName + "is not a registered court in TennisMate");
+            System.out.println(courtName + " is not a registered court in TennisMate");
             System.out.println("Please Enter valid court name");
             courtMainMenu();
         } else {

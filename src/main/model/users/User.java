@@ -1,14 +1,16 @@
 package model.users;
 
-import exceptions.CourtException;
-import exceptions.CourtNullException;
 import model.courts.Court;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 import persistence.Writable;
-
 import java.util.*;
+
+/*
+User
+Represents a User with id, preferred courts, time slots, level and status
+*/
 
 public class User implements Writable {
     protected int id;                     // user's id
@@ -136,7 +138,7 @@ public class User implements Writable {
     //MODIFIES: this
     //EFFECTS: removes the time slot from user's available time
     public void removeTimeSlot(int time) {
-        timeSlots.remove(time);
+        timeSlots.set(time, null);
     }
 
     // MODIFIES: this

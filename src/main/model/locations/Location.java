@@ -3,9 +3,12 @@ package model.locations;
 import model.courts.Court;
 import model.users.User;
 
-
 import java.util.Collection;
 import java.util.HashSet;
+
+/*
+Location contains courts
+*/
 
 //public class Location implements Writable {
 public class Location {

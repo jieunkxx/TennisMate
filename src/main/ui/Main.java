@@ -2,6 +2,8 @@ package ui;
 
 import java.io.FileNotFoundException;
 
+// Main Class to run TennisMateApp
+
 public class Main {
     public static void main(String[] args) {
         try {

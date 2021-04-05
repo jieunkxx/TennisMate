@@ -1,11 +1,12 @@
 package model.courts;
 
-import exceptions.CourtException;
-import exceptions.CourtNullException;
 import model.users.User;
 
 import java.util.*;
 
+/*
+Represents a court with its name and users
+*/
 public class Court {
     //public class Court implements Writable {
     private String courtName;               // court name

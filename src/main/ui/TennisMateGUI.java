@@ -1,8 +1,5 @@
 package ui;
 
-
-import exceptions.CourtException;
-import exceptions.CourtNullException;
 import model.courts.Court;
 import model.locations.Location;
 import model.users.Admin;
@@ -22,6 +19,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import static ui.TennisMateApp.*;
+
+// GUI format tennis mate app. main functions
 
 public class TennisMateGUI extends JFrame implements ActionListener {
 

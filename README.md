@@ -37,3 +37,9 @@ This application aims to minimize the effort to find a right match based on user
 - As a user, I want to be able to save all user accounts information to file.
 - As a user, I want to be able to load my user account from file, and login with the information to the system.
 - As a user, I want to be able to load and save the state of the application.
+
+##Phase 4: Task 2
+- Bi-directional association between Court and User. Court class calls addUser method and removeUsers method to maintain its user list, and User class calls addPreferredCourt method and removePreferredCourt method to maintain the corresponding court (assigned court).
+
+
+##Phase 4: Task 3
