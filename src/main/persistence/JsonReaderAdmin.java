@@ -108,16 +108,8 @@ public class JsonReaderAdmin {
     private void addCourt(Location loc, User user, JSONArray courtName) {
         for (Object c : courtName) {
             String name = c.toString();
-//            Court court = null;
-//            if (loc.lookingUpCourtByName(name) == null) {
-//                court = new Court(name);
-//                loc.addCourt(court);
-//            } else {
-//                court = loc.lookingUpCourtByName(name);
-//            }
             Court court = loc.lookingUpCourtByName(name);
             court.addUser(user);
-            //user.addPreferredCourt(court);
         }
     }
 
@@ -125,8 +117,6 @@ public class JsonReaderAdmin {
     // EFFECTS: add user to admin and set the location
     private void addToAdmin(Admin admin, Location loc, User user) {
         admin.addUser(user);
-        //admin.addUserName(user.getUserName());
-        //admin.addUserId(user.getId());
         admin.setLocation(loc);
     }
 

@@ -18,6 +18,7 @@ public class Coach extends User {
 
     // getters
     /* Coachs's specific methods are not utilized in this version */
+
     //EFFECTS: return the hourly rate for the lesson
     public int getFees() {
         return fees;

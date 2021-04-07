@@ -27,13 +27,6 @@ public class JsonWriter {
         writer = new PrintWriter(new File(destination));
     }
 
-//    // MODIFIES: this
-//    // EFFECTS: writes JSON representation of location to file
-//    public void write(Location loc) {
-//        JSONObject json = loc.toJson();
-//        saveToFile(json.toString(TAB));
-//    }
-
     // MODIFIES: this
     // EFFECTS: writes JSON representation of Admin to file
     public void write(Admin admin) {

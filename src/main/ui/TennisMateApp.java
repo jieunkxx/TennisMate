@@ -20,7 +20,6 @@ public class TennisMateApp {
     private static final String JSON_STORE = "./data/vancouver.json";
 
     public static final String LOCATION_NAME = "vancouver";
-    public static final String DEFAULT_COURT_NAME = "NONE";
     public static final String UBC_COURT_NAME = "UBC";
     public static final String KITS_COURT_NAME = "Kits";
     public static final String STANLEY_PARK_COURT_NAME = "StanleyPark";
@@ -28,7 +27,6 @@ public class TennisMateApp {
     private Scanner input;
     private boolean runProgram;
     private JsonWriter jsonWriter;
-    //private JsonReaderLocation jsonReaderLocation;
     private JsonReaderAdmin jsonReaderAdmin;
 
     private Admin admin;
@@ -36,18 +34,6 @@ public class TennisMateApp {
     private Court court;
     private User loginUser; // cast player and coach to user in this version
     private String userName;
-
-//    private Player player;
-//    private Coach coach;
-//    private User user;
-
-//    private int userId;
-
-//    private Collection<Integer> userIdList;
-//    private Collection<String> userNameList;
-//    private Collection<User> userList;
-    //private List<String> userInfo;
-
 
 
     // code referred TellerApp & FitLifeGymChain
@@ -85,13 +71,11 @@ public class TennisMateApp {
         } else if (cmd.equals("l")) {
             doLogIn();
         } else if (cmd.equals("save")) {
-            //saveLocation();
             saveAdmin();
             displayMenu();
             cmd = getUserInputString();
             loginCommand(cmd);
         } else if (cmd.equals("load")) {
-            //loadLocation();
             loadAdmin();
             displayMenu();
             cmd = getUserInputString();
@@ -119,24 +103,15 @@ public class TennisMateApp {
         vancouver = new Location(LOCATION_NAME);
         admin = new Admin(vancouver);
         admin.setLocation(vancouver);
-        //loadLocation(location);
         loadCourt(vancouver);
-        //loadPlayer(player);
-//        userIdList = new HashSet<>();
-//        userNameList = new HashSet<>();
-//        userList = new HashSet<>();
         runProgram = true;
         jsonWriter = new JsonWriter(JSON_STORE);
-        //jsonReaderLocation = new JsonReaderLocation(JSON_STORE);
         jsonReaderAdmin = new JsonReaderAdmin(JSON_STORE);
     }
 
     // MODIFIES: this
     // EFFECTS: initialize courts in location
     public static void loadCourt(Location location) {
-
-        //Court c0 = new Court(DEFAULT_COURT_NAME);
-        //location.addCourt(c0);
 
         Court c1 = new Court(UBC_COURT_NAME);
         location.addCourt(c1);
@@ -170,7 +145,6 @@ public class TennisMateApp {
     // MODIFIES: this
     // EFFECTS: signup for new user
     private void doSignUp() {
-        //User newUser = null;
         printSignUpPage();
         String userType = userType();
         System.out.println("\nEnter User Name:");
@@ -180,14 +154,10 @@ public class TennisMateApp {
             doLogIn();
         } else {
             int userId = admin.generateUserId();
-            //admin.addUserName(userName);
-            //admin.addUserId(userId);
             if (userType.equals("p")) {
-               //newUser = new Player(userId, userName);
                 Player newUser = new Player(userId, userName);
                 admin.addUser(newUser);
             } else if (userType.equals("c")) {
-                //newUser = new Coach(userId, userName); // coach's specific method is not available in this version
                 Coach newUser = new Coach(userId, userName);
                 admin.addUser(newUser);
             }
@@ -500,6 +470,7 @@ public class TennisMateApp {
                 accountAddSetupTimeSlot();
             } else {
                 System.out.println("Move to user setup menu..");
+                return;
             }
         } else {
             invalidTime();
@@ -511,21 +482,6 @@ public class TennisMateApp {
         System.out.println("Invalid input");
         accountAddSetupTimeSlot();
     }
-
-/*    private void checkTimeInput(String t) throws InvalidTimeException {
-        int time = -1;
-        if (t.matches("\\d\\d?")) {
-            time = Integer.parseInt(t);
-            if (time < 0 || time > 23) {
-                throw new InvalidTimeException();
-            }
-        } else {
-            throw new InvalidTimeException();
-        }
-        loginUser.addTimeSlot(time);
-        nextMoveAfterUpdateTimeslot("add");
-    }
-*/
 
     private void nextMoveAfterUpdateTimeslot(String str) {
         System.out.println("Your available time has been updated :" + loginUser.getTimeSlot());
@@ -643,8 +599,6 @@ public class TennisMateApp {
         System.out.println("In " + court.getCourtName() + " court,");
         courtSetupAllPlayers();
         courtSetupAllCoaches();
-        //TreeSet<String> sortedAllPlayersList = new TreeSet<>(allPlayersList);
-        //System.out.println(sortedAllPlayersList);
     }
 
     // EFFECTS: prints all players name assigned to this court
@@ -653,9 +607,6 @@ public class TennisMateApp {
         for (User u : court.getPlayers()) {
             allPlayersList.add(u.getUserName());
         }
-        //if (allPlayersList.isEmpty()) {
-        //    System.out.println("There is no one signed in " + court.getCourtName());
-        //} else {
         System.out.println("Players: " + allPlayersList);
     }
 
@@ -759,19 +710,6 @@ public class TennisMateApp {
         input.close();
     }
 
-//    // EFFECTS: saves the location to file
-//    private void saveLocation() {
-//        try {
-//            jsonWriter.open();
-//            jsonWriter.write(vancouver);
-//            jsonWriter.close();
-//            System.out.println("Saved " + JSON_STORE);
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Unable to write to file: " + JSON_STORE);
-//        }
-//    }
-
-
     //This code is referred to the JSonSerializationDemo example
     // EFFECTS: saves the admin to file
     private void saveAdmin() {
@@ -785,16 +723,6 @@ public class TennisMateApp {
         }
     }
 
-//    // MODIFIES: this
-//    // EFFECTS: loads location from file
-//    private void loadLocation() {
-//        try {
-//            vancouver = jsonReaderLocation.read();
-//            System.out.println("Loaded " + JSON_STORE);
-//        } catch (IOException e) {
-//            System.out.println("Unable to read from file: " + JSON_STORE);
-//        }
-//    }
 
     //This code is referred to the JSonSerializationDemo example
     // MODIFIES: this

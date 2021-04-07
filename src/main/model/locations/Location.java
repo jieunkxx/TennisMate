@@ -22,11 +22,9 @@ public class Location {
     public Location(String locName) {
         this.locationName = locName;
         courts = new HashSet<>();
-        //users = new HashSet<>();
     }
 
     // getters
-
     public String getLocationName() {
         return locationName;
     }
@@ -34,10 +32,6 @@ public class Location {
     public Collection<Court> getCourts() {
         return courts;
     }
-
-//    public Collection<User> getUsers() {
-//        return users;
-//    }
 
     public void setLocationName(String locName) {
         this.locationName = locName;
@@ -62,32 +56,4 @@ public class Location {
     public void addCourt(Court court) {
         courts.add(court);
     }
-
-//    @Override
-//    public JSONObject toJson() {
-//        JSONArray jsonArray = new JSONArray();
-//        JSONObject json = new JSONObject();
-//        json.put("Location", "Vancouver");
-//        json.put("Courts", courtsToJson());
-//        return json;
-//    }
-//
-//    // EFFECTS: returns court in this location as a JSON array
-//    private JSONArray courtsToJson() {
-//        Collection<Court> jsonCourtList = courts;
-//        Court court = new Court("NONE");
-//        for (User u : users) {
-//            if (u.getPreferredCourt().isEmpty()) {
-//                u.addPreferredCourt(court);
-//            }
-//        }
-//
-//        JSONArray jsonArray = new JSONArray();
-//        for (Court c : jsonCourtList) {
-//            jsonArray.put(c.toJson());
-//        }
-//        return jsonArray;
-//    }
-
-
 }

@@ -149,15 +149,6 @@ public class User implements Writable {
         return this.status;
     }
 
-//    public boolean setStatus(String status) {
-//        if (status.equals("true")) {
-//            this.status = true;
-//        } else {
-//            this.status = false;
-//        }
-//        return this.status;
-//    }
-
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

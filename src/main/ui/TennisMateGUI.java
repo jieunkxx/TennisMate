@@ -85,7 +85,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     public TennisMateGUI() {
         super("TennisMate UI");
-        //   vancouver = new Location(LOCATION_NAME);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -142,28 +141,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         courts.setPreferredSize(new Dimension(200, 30));
     }
 
-    /*
-    public void addPanel() {
-
-        setContentPane(basePanel);
-        basePanel.add(centerPanel, BorderLayout.CENTER);
-        basePanel.add(mainPanel, BorderLayout.SOUTH);
-
-        centerPanel.add(westPanel, BorderLayout.WEST);
-        centerPanel.add(eastPanel, BorderLayout.EAST);
-
-        mainPanel.add(mainNorthPanel, BorderLayout.NORTH);
-        mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
-        mainPanel.add(mainBottomPanel, BorderLayout.SOUTH);
-
-        westPanel.setLayout(new FlowLayout());
-        eastPanel.setLayout(new FlowLayout());
-        mainNorthPanel.setLayout(new GridLayout(2, 2));
-        mainCenterPanel.setLayout(new FlowLayout());
-        mainBottomPanel.setLayout(new FlowLayout());
-
-    }
-    */
 
     //MODIFIES: this
     //EFFECTS: set layout of the panels
@@ -213,9 +190,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         mainCenterPanel.add(times);
         mainCenterPanel.add(addTimeBtn);
         mainCenterPanel.add(removeTimeBtn);
-        //mainCenterPanel.add(userInfoBtn);
 
-        //mainBottomPanel.add(statusMsg);
         statusMsgPanel.add(statusMsg);
         loginUserPanel.add(loginUserInfo);
     }
