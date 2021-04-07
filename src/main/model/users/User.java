@@ -5,6 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 import persistence.Writable;
+
+import java.text.Collator;
 import java.util.*;
 
 /*
@@ -54,6 +56,15 @@ public class User implements Writable {
 
     public Collection<Court> getPreferredCourt() {
         return courts;
+    }
+
+    // EFFECTS: return user's preferred court name
+    public Collection<String> getCourtsByName() {
+        Collection<String> courtsList =  new TreeSet<String>(Collator.getInstance());
+        for (Court c : this.getPreferredCourt()) {
+            courtsList.add(c.getCourtName());
+        }
+        return courtsList;
     }
 
     public boolean lookingupCourtByName(String courtName) {

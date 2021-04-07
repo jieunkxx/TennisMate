@@ -67,7 +67,7 @@ public class CourtTest {
     }
 
     @Test
-    public void testGetPlayeres() {
+    public void testGetPlayers() {
         assertEquals(0, testCourt.getPlayers().size());
         testCourt.addUser(testPlayer1);
         testCourt.addUser(testPlayer2);

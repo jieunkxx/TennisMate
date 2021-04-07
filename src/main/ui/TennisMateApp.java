@@ -181,7 +181,7 @@ public class TennisMateApp {
         mainPage();
     }
 
-    // EFFECTS: return login user if there is a user with the user name entered
+    // EFFECTS: return login user if there is a user with the user name entered in Admin's user list
     private void findUserFromUserList(String userName) {
         for (User u : admin.getUserList()) {
             if (u.getUserName().equals(userName)) {
@@ -364,7 +364,7 @@ public class TennisMateApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: add court to user's courtlist
+    // EFFECTS: add court to user's court list
     private void addCourt() {
         printCourtInfo();
         System.out.println("\nSelect preferred Court: ");
@@ -387,7 +387,7 @@ public class TennisMateApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: remove court from user's courtlist
+    // EFFECTS: remove court from user's court list
     private void removeCourt() {
         System.out.println("\nSelect Court to remove from your list: ");
         System.out.println("Your preferred courts are:");
@@ -470,7 +470,6 @@ public class TennisMateApp {
                 accountAddSetupTimeSlot();
             } else {
                 System.out.println("Move to user setup menu..");
-                return;
             }
         } else {
             invalidTime();

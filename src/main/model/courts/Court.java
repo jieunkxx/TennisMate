@@ -2,6 +2,7 @@ package model.courts;
 
 import model.users.User;
 
+import java.text.Collator;
 import java.util.*;
 
 /*
@@ -27,7 +28,17 @@ public class Court {
     public Collection<User> getUsers() {
         return users;
     }
-
+/*
+    // EFFECTS: return user by name in the court
+    private Collection<String> getUsersByName(Court court) {
+        Collection<String> usersList = new TreeSet<String>(Collator.getInstance());
+        for (User u : court.getUsers()) {
+            usersList.add(u.getUserName());
+        }
+        return usersList;
+    }
+*/
+    // EFFECTS: find players in the court
     public Collection<User> getPlayers() {
         Collection<User> players = new HashSet<>();
         for (User u : users) {
@@ -38,6 +49,7 @@ public class Court {
         return players;
     }
 
+    // EFFECTS: find coaches in the court
     public Collection<User> getCoaches() {
         Collection<User> coaches = new HashSet<>();
         for (User u : users) {

@@ -49,7 +49,6 @@ public class Location {
         return court;
     }
 
-
     // REQUIRES: court != null
     // MODIFIES: this
     // EFFECTS: adds a court in the location

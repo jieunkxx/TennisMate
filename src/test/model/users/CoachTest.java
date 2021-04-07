@@ -6,6 +6,9 @@ import model.users.Coach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
+import java.util.TreeSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CoachTest {
@@ -62,6 +65,19 @@ public class CoachTest {
 //        assertEquals((Court) testCourt1, testPlayer.getPreferredCourt());
 //    }
 
+
+
+    @Test
+    public void testGetCourtsByName() {
+        Collection<String> courtsList = new TreeSet<>();
+        courtsList.add("testCourt1");
+        courtsList.add("testCourt2");
+        testCoach.addPreferredCourt(testCourt1);
+        testCoach.addPreferredCourt(testCourt2);
+        assertEquals(2, testCoach.getCourtsByName().size());
+        courtsList.equals(testCoach.getCourtsByName());
+    }
+
     @Test
     public void testLookingupCourtByName() {
         assertFalse(testCoach.lookingupCourtByName(testCourt1.getCourtName()));
@@ -72,6 +88,7 @@ public class CoachTest {
         assertFalse(testCoach.lookingupCourtByName("testCourt3"));
 
     }
+
 
     @Test
     public void testSetLevel() {

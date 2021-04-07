@@ -20,7 +20,7 @@ import java.util.HashSet;
 
 import static ui.TennisMateApp.*;
 
-// GUI format tennis mate app. main functions
+/* GUI format tennis mate app. main functions */
 
 public class TennisMateGUI extends JFrame implements ActionListener {
 
@@ -258,7 +258,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
-    // EFFECTS: return login user if there is a user with the user name entered
+    // EFFECTS: return login user if there is a user with the user name entered in Admin's user list
     private void findUserFromUserList(String userName) {
         for (User u : admin.getUserList()) {
             if (u.getUserName().equals(userName)) {
@@ -289,21 +289,12 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
 
     // EFFECTS: find user in the court selected from the court selection
-    private Collection<String> getUsersInCourt(Court court) {
+    private Collection<String> getUsersNameInCourt(Court court) {
         Collection<String> usersList = new HashSet<>();
         for (User u : court.getUsers()) {
             usersList.add(u.getUserName());
         }
         return usersList;
-    }
-
-    // EFFECTS: return user's preferred court name
-    private Collection<String> getCourts() {
-        Collection<String> courtsList = new HashSet<>();
-        for (Court c : loginUser.getPreferredCourt()) {
-            courtsList.add(c.getCourtName());
-        }
-        return courtsList;
     }
 
 
@@ -317,7 +308,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             } else {
                 loginUser.addPreferredCourt(court);
                 statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
-                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + loginUser.getCourtsByName());
             }
         } else {
             printErrMsg("login Failed! No one is on the system");
@@ -333,7 +324,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             if (loginUser.getPreferredCourt().contains(court)) {
                 loginUser.removePreferredCourt(court);
                 statusMsg.setText(court.getCourtName() + " is removed in " + loginUser.getUserName() + " 's court");
-                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + loginUser.getCourtsByName());
             } else {
                 statusMsg.setText(court.getCourtName() + " is not in " + loginUser.getUserName() + " 's court");
                 loginUserInfo.setText("");
@@ -359,7 +350,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
                                         + loginUser.getTimeSlot());
             }
         } else {
-            printErrMsg("login Failed! No one is on the system");
+            printErrMsg("Action Failed! No one is on the system");
         }
     }
 
@@ -383,7 +374,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         }
     }
 
-    // EFFECTS: String time conversion into int type
+    // EFFECTS: String type time conversion into int type
     public int timeConversion() {
         String t = (String) times.getSelectedItem();
         String[] parts = t.split(" - ");
@@ -447,8 +438,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     public void courtOptionHandler(String str) {
         if (loginUser != null) {
             if (str.equals("courtInfo")) {
-                statusMsg.setText("In " + court.getCourtName() + " : " + getUsersInCourt(court));
-                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
+                statusMsg.setText("In " + court.getCourtName() + " : " + getUsersNameInCourt(court));
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + loginUser.getCourtsByName());
             }
             if (str.equals("add")) {
                 addCourtToUser();
@@ -474,6 +465,18 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             }
         } else {
             printErrMsg("Action Failed! No one is on the system");
+        }
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: load the file or save the data
+    public void saveAndLoadHandler(String str) {
+        if (str.equals("load")) {
+            loadData();
+        }
+        if (str.equals("save")) {
+            saveData();
         }
     }
 
@@ -504,18 +507,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             statusMsg.setText("Unable to write to file: " + JSON_STORE);
             loginUserInfo.setText("");
-        }
-    }
-
-
-    // MODIFIES: this
-    // EFFECTS: load the file or save the data
-    public void saveAndLoadHandler(String str) {
-        if (str.equals("load")) {
-            loadData();
-        }
-        if (str.equals("save")) {
-            saveData();
         }
     }
 }

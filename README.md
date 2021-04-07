@@ -38,17 +38,25 @@ This application aims to minimize the effort to find a right match based on user
 - As a user, I want to be able to load my user account from file, and login with the information to the system.
 - As a user, I want to be able to load and save the state of the application.
 
+
 ##Phase 4: Task 2
 - Bi-directional association between Court and User. Court class calls addUser method and removeUsers method to maintain its user list, and User class calls addPreferredCourt method and removePreferredCourt method to maintain the corresponding court (assigned court).
 
 
 ##Phase 4: Task 3
 - UML diagram added : UML_Design_Diagram.pdf
-- Coupling in TennisMateApp and TennisMateAppGUI : there are some methods used in both classes. 1. generate super class, and have TennisMateApp and TennisMateGUI as subclass would minimize the duplication and coupling issue  
-- Readability : TennisMateApp and TennisMateAPPGUI have conditional statements and iterations upon user's input which possibly cause readability issue. New method can be extracted from the codes.  
-- Reduction of duplication : - There are duplicated code used in some methods in TennisMateApp and TennisMateGUI, especially for print statement. The duplicated part can be extracted as a method to reduce the duplication.
-- Update: 
-    - generated printErrMsg method to reduce the duplicated code in TennisMateAppGUI
-    - Improve readability in TennisMateApp : extracted methods for iterations
+- Coupling in TennisMateApp and TennisMateAppGUI : there are some methods used in both classes. 
+    - generate super class, and have TennisMateApp and TennisMateGUI as subclass would minimize the duplication and coupling issue
+    - ex) shared method: init(), loadCourt(), login(), loadData(), saveData()
+- Cohesion in TennisMateApp and TennisMateAppGUI :  
+    - court specific and user specific method can be implemented to Court class and User class. ex) getCourts to getCourtsByName method in Court.
+- Readability : TennisMateApp and TennisMateGUI have conditional statements and iterations upon user's input which possibly cause readability issue. New method can be extracted from the codes.  
+- Reduction of duplication : There are duplicated code used in some methods in TennisMateApp and TennisMateGUI, especially for print statements. 
+    - The duplicated part can be extracted as a method to reduce the duplication.
+    - create Map<userName, User> would reduce redundant code implementation and redundant iterations when searching user's info. 
+- Updated: 
+    - generated printErrMsg method to reduce the duplicated code when print error message and error icon in TennisMateAppGUI
+    - extracted methods to improve readability in TennisMateApp. ex) findUserFromUserList(), generateSortedUserListInSelectedTimeSlot() 
+    - move getCourtsByName in TennisGUI to Court to improve cohesion
 
              

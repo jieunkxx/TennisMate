@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.Collection;
+import java.util.TreeSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -62,6 +65,17 @@ class PlayerTest {
 //        while(iterator.hasNext())
 //        assertEquals((Court) testCourt1, testPlayer.getPreferredCourt());
 //    }
+
+    @Test
+    public void testGetCourtsByName() {
+        Collection<String> courtsList = new TreeSet<>();
+        courtsList.add("testCourt1");
+        courtsList.add("testCourt2");
+        testPlayer.addPreferredCourt(testCourt1);
+        testPlayer.addPreferredCourt(testCourt2);
+        assertEquals(2, testPlayer.getCourtsByName().size());
+        courtsList.equals(testPlayer.getCourtsByName());
+    }
 
     @Test
     public void testLookingupCourtByName() {
