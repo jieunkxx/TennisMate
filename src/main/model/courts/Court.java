@@ -28,6 +28,7 @@ public class Court {
     public Collection<User> getUsers() {
         return users;
     }
+
 /*
     // EFFECTS: return user by name in the court
     private Collection<String> getUsersByName(Court court) {
