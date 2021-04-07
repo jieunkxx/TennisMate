@@ -38,6 +38,7 @@ public class Court {
         return usersList;
     }
 */
+
     // EFFECTS: find players in the court
     public Collection<User> getPlayers() {
         Collection<User> players = new HashSet<>();
