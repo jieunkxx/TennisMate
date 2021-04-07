@@ -39,11 +39,11 @@ This application aims to minimize the effort to find a right match based on user
 - As a user, I want to be able to load and save the state of the application.
 
 
-##Phase 4: Task 2
+## Phase 4: Task 2
 - Bi-directional association between Court and User. Court class calls addUser method and removeUsers method to maintain its user list, and User class calls addPreferredCourt method and removePreferredCourt method to maintain the corresponding court (assigned court).
 
 
-##Phase 4: Task 3
+## Phase 4: Task 3
 - UML diagram added : UML_Design_Diagram.pdf
 - Coupling in TennisMateApp and TennisMateAppGUI : there are some methods used in both classes. 
     - generate super class, and have TennisMateApp and TennisMateGUI as subclass would minimize the duplication and coupling issue
