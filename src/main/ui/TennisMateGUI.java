@@ -277,15 +277,21 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             printErrMsg("login failed");
             loginUserL.setText("login User : ");
         } else {
-            for (User u : admin.getUserList()) {
-                if (u.getUserName().equals(userName)) {
-                    loginUser = u;
-                }
-            }
+            findUserFromUserList(userName);
             statusMsg.setText("login succeed");
             loginUserL.setText("login user  : " + loginUser.getUserName());
         }
     }
+
+    // EFFECTS: return login user if there is a user with the user name entered
+    private void findUserFromUserList(String userName) {
+        for (User u : admin.getUserList()) {
+            if (u.getUserName().equals(userName)) {
+                loginUser = u; // cast player and coach to user type in this version
+            }
+        }
+    }
+
 
     //MODIFIES: this
     //EFFECTS: sign up using the user input in the user field, if no user input found,

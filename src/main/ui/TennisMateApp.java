@@ -207,12 +207,17 @@ public class TennisMateApp {
             System.out.println("Move to SignUp...");
             doSignUp();
         }
+        findUserFromUserList(userName);
+        mainPage();
+    }
+
+    // EFFECTS: return login user if there is a user with the user name entered
+    private void findUserFromUserList(String userName) {
         for (User u : admin.getUserList()) {
             if (u.getUserName().equals(userName)) {
                 loginUser = u; // cast player and coach to user type in this version
             }
         }
-        mainPage();
     }
 
     //EFFECTS: prints out main page
@@ -691,6 +696,14 @@ public class TennisMateApp {
         for (int i = from; i <= to; i++) {
             selectedTime.add(i);
         }
+        TreeSet<String> sortedUserInSelectedTimeSlotList = generateSortedUserListInSelectedTimeSlot(selectedTime);
+        System.out.println("Users from " + from + " to " + to + " are: " + sortedUserInSelectedTimeSlotList);
+        printUserTimeSlot(sortedUserInSelectedTimeSlotList);
+    }
+
+    // refactoring
+    // EFFECTS: generate sorted user list in the selected time slot
+    private TreeSet<String> generateSortedUserListInSelectedTimeSlot(List<Integer> selectedTime) {
         Collection<String> usersInSelectedTimeSlot = new HashSet<>();
         for (User u : court.getUsers()) {
             for (Integer i : selectedTime) {
@@ -700,8 +713,7 @@ public class TennisMateApp {
             }
         }
         TreeSet<String> sortedUserInSelectedTimeSlotList = new TreeSet<>(usersInSelectedTimeSlot);
-        System.out.println("Users from " + from + " to " + to + " are: " + sortedUserInSelectedTimeSlotList);
-        printUserTimeSlot(sortedUserInSelectedTimeSlotList);
+        return sortedUserInSelectedTimeSlotList;
     }
 
     // EFFECTS: prints users name with their time slot

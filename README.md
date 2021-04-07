@@ -43,3 +43,12 @@ This application aims to minimize the effort to find a right match based on user
 
 
 ##Phase 4: Task 3
+- UML diagram added : UML_Design_Diagram.pdf
+- Coupling in TennisMateApp and TennisMateAppGUI : there are some methods used in both classes. Generate super class, and have TennisMateApp and TennisMateGUI as subclass would minimize the duplication and coupling issue. 
+- Readability : TennisMateApp and TennisMateAPPGUI have conditional statements and iterations upon user's input which possibly cause readability issue. New method can be extracted from the codes.  
+- Reduction of duplication : - There are duplicated code used in some methods in TennisMateApp and TennisMateGUI, especially for print statement. The duplicated part can be extracted as a method to reduce the duplication.
+- Update: 
+    - generated printErrMsg method to reduce the duplicated code in TennisMateAppGUI
+    - Improve readability in TennisMateApp : extracted methods for iterations
+
+             

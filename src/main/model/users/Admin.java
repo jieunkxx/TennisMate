@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-Admin class stores all users information
+Admin class stores all users information in the location
  */
 
 public class Admin implements Writable {
