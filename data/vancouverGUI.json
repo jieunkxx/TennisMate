@@ -1,0 +1,35 @@
+{
+    "User": [
+        {
+            "level": "novice",
+            "timeSlot": [],
+            "courts": [
+                "StanleyPark",
+                "Kits"
+            ],
+            "id": 200,
+            "userName": "test",
+            "type": "player",
+            "status": false
+        },
+        {
+            "level": "novice",
+            "timeSlot": [],
+            "courts": ["Kits"],
+            "id": 548,
+            "userName": "test2",
+            "type": "player",
+            "status": false
+        },
+        {
+            "level": "novice",
+            "timeSlot": [],
+            "courts": ["UBC"],
+            "id": 875,
+            "userName": "test1",
+            "type": "player",
+            "status": false
+        }
+    ],
+    "Admin": "Vancouver"
+}

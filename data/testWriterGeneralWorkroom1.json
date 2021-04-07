@@ -1,0 +1,29 @@
+{
+    "User": [
+        {
+            "level": "novice",
+            "timeSlot": [
+                1,
+                4
+            ],
+            "courts": ["UBC"],
+            "id": 53,
+            "userName": "test1",
+            "type": "player",
+            "status": true
+        },
+        {
+            "level": "novice",
+            "timeSlot": [
+                11,
+                13
+            ],
+            "courts": [],
+            "id": 504,
+            "userName": "test2",
+            "type": "coach",
+            "status": false
+        }
+    ],
+    "Admin": "Vancouver"
+}

@@ -1,0 +1,46 @@
+{
+    "User": [
+        {
+            "level": "advance",
+            "timeSlot": [
+                10,
+                11,
+                12
+            ],
+            "courts": [
+                "Kits",
+                "UBC"
+            ],
+            "id": 343,
+            "userName": "c1",
+            "type": "coach",
+            "status": true
+        },
+        {
+            "level": "novice",
+            "timeSlot": [
+                10,
+                19,
+                20
+            ],
+            "courts": [
+                "UBC",
+                "StanleyPark"
+            ],
+            "id": 875,
+            "userName": "p1",
+            "type": "player",
+            "status": true
+        },
+        {
+            "level": "novice",
+            "timeSlot": [22],
+            "courts": ["UBC"],
+            "id": 813,
+            "userName": "p2",
+            "type": "player",
+            "status": false
+        }
+    ],
+    "Admin": "Vancouver"
+}
