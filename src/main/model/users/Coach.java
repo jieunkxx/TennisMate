@@ -8,7 +8,6 @@ fee will be implemented in the future.
 public class Coach extends User {
     private int fees;
 
-    // REQUIRES: id is not taken by other user
     // EFFECTS: constructs coach with given id and empty timeslot, empty court list
     //          and novice level, type "coach"
     public Coach(int id, String userName) {
@@ -18,7 +17,7 @@ public class Coach extends User {
     }
 
     // getters
-
+    /* Coachs's specific methods are not utilized in this version */
     //EFFECTS: return the hourly rate for the lesson
     public int getFees() {
         return fees;

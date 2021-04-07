@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-// Run text based TennisMate app. //
+/* Run text based TennisMate app. /*/
 
 public class TennisMateApp {
 
@@ -34,12 +34,15 @@ public class TennisMateApp {
     private Admin admin;
     private Location vancouver;
     private Court court;
-    private Player player;
-    private Coach coach;
-    private User user;
-    private User loginUser;
-    private int userId;
+    private User loginUser; // cast player and coach to user in this version
     private String userName;
+
+//    private Player player;
+//    private Coach coach;
+//    private User user;
+
+//    private int userId;
+
 //    private Collection<Integer> userIdList;
 //    private Collection<String> userNameList;
 //    private Collection<User> userList;
@@ -111,7 +114,7 @@ public class TennisMateApp {
 
 
     // MODIFIES: this
-    // EFFECTS: initialize location and courts
+    // EFFECTS: initialize location and courts in the location
     private void init() {
         vancouver = new Location(LOCATION_NAME);
         admin = new Admin(vancouver);
@@ -153,10 +156,11 @@ public class TennisMateApp {
         System.out.println("\tEnter 'c' -> coach");
     }
 
+    // EFFECTS: prints user type (p or c)
     private String userType() {
         String userType = getUserInputString();
         if (!userType.equals("p") && !userType.equals("c")) {
-            System.out.println("Input Invalid. Please choose 'p' or 'b'");
+            System.out.println("Input Invalid. Please choose 'p' or 'c'");
             userType();
         }
         return userType;
@@ -166,6 +170,7 @@ public class TennisMateApp {
     // MODIFIES: this
     // EFFECTS: signup for new user
     private void doSignUp() {
+        //User newUser = null;
         printSignUpPage();
         String userType = userType();
         System.out.println("\nEnter User Name:");
@@ -178,13 +183,17 @@ public class TennisMateApp {
             //admin.addUserName(userName);
             //admin.addUserId(userId);
             if (userType.equals("p")) {
-                user = new Player(userId, userName);
+               //newUser = new Player(userId, userName);
+                Player newUser = new Player(userId, userName);
+                admin.addUser(newUser);
             } else if (userType.equals("c")) {
-                user = new Coach(userId, userName);
+                //newUser = new Coach(userId, userName); // coach's specific method is not available in this version
+                Coach newUser = new Coach(userId, userName);
+                admin.addUser(newUser);
             }
-            admin.addUser(user);
+            //admin.addUser(newUser);
             System.out.println("\nSignUp Completed.");
-            System.out.println("user Name : " + userName + " (usertype: " + user.getType() + ")");
+            //System.out.println("user Name : " + userName + " (usertype: " + newUser.getType() + ")");
         }
     }
 
@@ -200,7 +209,7 @@ public class TennisMateApp {
         }
         for (User u : admin.getUserList()) {
             if (u.getUserName().equals(userName)) {
-                loginUser = u;
+                loginUser = u; // cast player and coach to user type in this version
             }
         }
         mainPage();
@@ -280,6 +289,8 @@ public class TennisMateApp {
         }
     }
 
+
+    // EFFECTS: user setup menu handler
     private void userSetupMenu(String cmd) {
         switch (cmd) {
             case "level":

@@ -45,6 +45,8 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     JPanel mainNorthPanel = new JPanel();
     JPanel mainCenterPanel = new JPanel();
     JPanel mainBottomPanel = new JPanel();
+    JPanel statusMsgPanel = new JPanel();
+    JPanel loginUserPanel = new JPanel();
 
 
     /* Label */
@@ -52,7 +54,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     JLabel courtsL = new JLabel("courts");
     JLabel loginUserL = new JLabel("login User : ");
     JLabel statusMsg = new JLabel("users in the courts");
-
+    JLabel loginUserInfo = new JLabel("");
     /* TextField */
     JTextField userNameF = new JTextField();
 
@@ -64,10 +66,13 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
     JButton saveBtn = new JButton("save");
     JButton loadBtn = new JButton("load");
+    JButton userInfoBtn = new JButton("userInfo");
 
     JButton selectCourtBtn = new JButton("add");
     JButton removeCourtBtn = new JButton("remove");
     JButton checkCourtBtn = new JButton("courtInfo");
+    JButton addTimeBtn = new JButton("addTime");
+    JButton removeTimeBtn = new JButton("removeTime");
 
     /* Combo Box */
     private JComboBox<String> courts = new JComboBox<>();
@@ -98,6 +103,9 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         selectCourtBtn.addActionListener(this);
         removeCourtBtn.addActionListener(this);
         checkCourtBtn.addActionListener(this);
+        addTimeBtn.addActionListener(this);
+        removeTimeBtn.addActionListener(this);
+        userInfoBtn.addActionListener(this);
 
         pack();
         init();
@@ -127,12 +135,11 @@ public class TennisMateGUI extends JFrame implements ActionListener {
 
         loginBtn.setPreferredSize(new Dimension(75, 25));
         signupBtn.setPreferredSize(new Dimension(75, 25));
-
         loadBtn.setPreferredSize(new Dimension(75, 25));
         saveBtn.setPreferredSize(new Dimension(75, 25));
+        userInfoBtn.setPreferredSize(new Dimension(75, 25));
 
         courts.setPreferredSize(new Dimension(200, 30));
-
     }
 
     /*
@@ -161,7 +168,6 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     //MODIFIES: this
     //EFFECTS: set layout of the panels
     public void addPanel() {
-
         setContentPane(basePanel);
         basePanel.add(centerPanel, BorderLayout.CENTER);
         basePanel.add(mainPanel, BorderLayout.SOUTH);
@@ -177,8 +183,12 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         eastPanel.setLayout(new FlowLayout());
         mainNorthPanel.setLayout(new GridLayout(2, 2));
         mainCenterPanel.setLayout(new FlowLayout());
-        mainBottomPanel.setLayout(new FlowLayout());
+        //mainBottomPanel.setLayout(new FlowLayout());
 
+        mainBottomPanel.add(statusMsgPanel, BorderLayout.NORTH);
+        mainBottomPanel.add(loginUserPanel, BorderLayout.CENTER);
+        statusMsgPanel.setLayout(new FlowLayout());
+        loginUserPanel.setLayout(new FlowLayout());
     }
 
     //MODIFIES: this
@@ -201,18 +211,21 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         mainCenterPanel.add(removeCourtBtn);
         mainCenterPanel.add(checkCourtBtn);
         mainCenterPanel.add(times);
+        mainCenterPanel.add(addTimeBtn);
+        mainCenterPanel.add(removeTimeBtn);
+        //mainCenterPanel.add(userInfoBtn);
 
-        mainBottomPanel.add(statusMsg);
-
-
+        //mainBottomPanel.add(statusMsg);
+        statusMsgPanel.add(statusMsg);
+        loginUserPanel.add(loginUserInfo);
     }
 
     //MODIFIES: this
     //EFFECTS: generates courts selections
     public void comboCourts() {
-        this.courts.addItem("Kits");
-        this.courts.addItem("StanleyPark");
-        this.courts.addItem("UBC");
+        this.courts.addItem(KITS_COURT_NAME);
+        this.courts.addItem(STANLEY_PARK_COURT_NAME);
+        this.courts.addItem(UBC_COURT_NAME);
     }
 
     //MODIFIES: this
@@ -261,8 +274,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     private void login(String userName) {
         if (!admin.getUserNameList().contains(userName)) {
             loginUser = null;
-            JOptionPane.showMessageDialog(null, null, "login failed", JOptionPane.ERROR_MESSAGE, popupError);
-            statusMsg.setText("login failed");
+            printErrMsg("login failed");
             loginUserL.setText("login User : ");
         } else {
             for (User u : admin.getUserList()) {
@@ -271,7 +283,7 @@ public class TennisMateGUI extends JFrame implements ActionListener {
                 }
             }
             statusMsg.setText("login succeed");
-            loginUserL.setText("login user : " + loginUser.getUserName());
+            loginUserL.setText("login user  : " + loginUser.getUserName());
         }
     }
 
@@ -280,19 +292,16 @@ public class TennisMateGUI extends JFrame implements ActionListener {
     //         failed and pops up the error image and msg.
     private void signUp(String userName) {
         if (userName.length() == 0) {
-            JOptionPane.showMessageDialog(null, null,
-                    "SignUp Failed!", JOptionPane.ERROR_MESSAGE, popupError);
-            statusMsg.setText("SignUp Failed! Please Enter valid user name");
+            printErrMsg("SignUp Failed");
         } else if (admin.getUserNameList().contains(userName)) {
-            JOptionPane.showMessageDialog(null, null,
-                    "SignUp Failed!", JOptionPane.ERROR_MESSAGE, popupError);
-            statusMsg.setText("SignUp Failed! User Name exist.");
+            printErrMsg("SignUp Failed! User Name exist.");
         } else {
             int userId = admin.generateUserId();
             loginUser = new Player(userId, userName);
             admin.addUser(loginUser);
             System.out.println(loginUser.getUserName());
             statusMsg.setText("signUp succeed");
+            loginUserInfo.setText("");
             loginUserL.setText("login user : " + loginUser.getUserName());
         }
     }
@@ -307,45 +316,187 @@ public class TennisMateGUI extends JFrame implements ActionListener {
         return usersList;
     }
 
+    // EFFECTS: return user's preferred court name
+    private Collection<String> getCourts() {
+        Collection<String> courtsList = new HashSet<>();
+        for (Court c : loginUser.getPreferredCourt()) {
+            courtsList.add(c.getCourtName());
+        }
+        return courtsList;
+    }
+
+
     // MODIFIES : this
     // EFFECTS: add login user to the court selected from the court selection
     private void addCourtToUser() {
         if (loginUser != null) {
             if (loginUser.getPreferredCourt().contains(court)) {
                 statusMsg.setText(court.getCourtName() + " already in " + loginUser.getUserName() + " 's court");
+                loginUserInfo.setText("");
             } else {
                 loginUser.addPreferredCourt(court);
-                //court.addUser(loginUser);
                 statusMsg.setText(court.getCourtName() + " is added in " + loginUser.getUserName() + " 's court");
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
             }
         } else {
-            JOptionPane.showMessageDialog(null, null,
-                    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupError);
-            statusMsg.setText("Action Failed! No one is on the system");
+            printErrMsg("login Failed! No one is on the system");
         }
     }
 
 
     // MODIFIES : this
-    // EFFECTS: remove login user from the court selected from the court selection
+    // EFFECTS: remove login user from the court selected from the court selection. if there is no login user, generate
+    //          error msg.
     private void removeCourtFromUser() {
         if (loginUser != null) {
             if (loginUser.getPreferredCourt().contains(court)) {
                 loginUser.removePreferredCourt(court);
-                //court.removeUser(loginUser);
-                statusMsg.setText(court.getCourtName() + "is removed in " + loginUser.getUserName() + " 's court");
+                statusMsg.setText(court.getCourtName() + " is removed in " + loginUser.getUserName() + " 's court");
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
             } else {
-                statusMsg.setText(court.getCourtName() + "is not in " + loginUser.getUserName() + " 's court");
+                statusMsg.setText(court.getCourtName() + " is not in " + loginUser.getUserName() + " 's court");
+                loginUserInfo.setText("");
             }
         } else {
-            //JOptionPane.showMessageDialog(null, null,
-            //    "login Action Failed! No one is on the system", JOptionPane.ERROR_MESSAGE, popupError);
             statusMsg.setText("Action Failed! No one is on the system");
         }
     }
 
+    // MODIFIES : this
+    // EFFECTS: add time slot to login user's time slot. if there is no login user, generate
+    //          error msg and error icon.
+    private void addTimeSlotToUser(int time) {
+        if (loginUser != null) {
+            if (loginUser.getTimeSlot().contains(time)) {
+                statusMsg.setText(time + " is already in " + loginUser.getUserName() + " 's timeSlot");
+                loginUserInfo.setText("");
+            } else {
+                loginUser.addTimeSlot(time);
+                int i = time + 1;
+                statusMsg.setText(time + " - " + i + " is added.");
+                loginUserInfo.setText(loginUser.getUserName() + " 's timeSlot : "
+                                        + loginUser.getTimeSlot());
+            }
+        } else {
+            printErrMsg("login Failed! No one is on the system");
+        }
+    }
 
-    //This code is referred to the JSonSerializationDemo example
+    // MODIFIES : this
+    // EFFECTS: remove time slot from login user's time slot. if there is no login user, generate
+    //          error msg and error icon
+    private void removeTimeSlotFromUser(int time) {
+        if (loginUser != null) {
+            if (!loginUser.getTimeSlot().contains(time)) {
+                statusMsg.setText(time + " is not in " + loginUser.getUserName() + " 's timeSlot");
+                loginUserInfo.setText("");
+            } else {
+                loginUser.removeTimeSlot(time);
+                int i = time + 1;
+                statusMsg.setText(time + " - " + i + " is removed.");
+                loginUserInfo.setText(loginUser.getUserName() + " 's timeSlot : "
+                        + loginUser.getTimeSlot());
+            }
+        } else {
+            printErrMsg("Action Failed! No one is on the system");
+        }
+    }
+
+    // EFFECTS: String time conversion into int type
+    public int timeConversion() {
+        String t = (String) times.getSelectedItem();
+        String[] parts = t.split(" - ");
+        String t1 = parts[0];
+        return Integer.parseInt(t1);
+    }
+
+    // EFFECTS: print error msg and error icon with the string entered.
+    public void printErrMsg(String str) {
+        JOptionPane.showMessageDialog(null, null,
+                str, JOptionPane.ERROR_MESSAGE, popupError);
+        statusMsg.setText(str);
+        loginUserInfo.setText("");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: actionPerformed handler. Calls corresponding method to the button clicked
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String str = e.getActionCommand();
+        court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
+        int time = timeConversion();
+        if (str.equals("login") || str.equals("signUp")) {
+            loginOptionHandler(str);
+        }
+        if (str.equals("userInfo")) {
+            loginUserInfoHandler();
+        }
+        if (str.equals("courtInfo") || str.equals("add") || str.equals("remove")) {
+            courtOptionHandler(str);
+        }
+        if (str.equals("addTime") || str.equals("removeTime")) {
+            timeSlotOptionHandler(str, time);
+        }
+        if (str.equals("load") || str.equals("save")) {
+            saveAndLoadHandler(str);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: login or signup if the input equals to login or signup
+    public void loginOptionHandler(String str) {
+        if (str.equals("login")) {
+            login(userNameF.getText());
+        }
+        if (str.equals("signUp")) {
+            signUp(userNameF.getText());
+        }
+    }
+
+    // EFFECTS: print login user's information
+    public void loginUserInfoHandler() {
+        loginUserInfo.setText("level : " + loginUser.getLevel() + "\n"
+                            + " type : " + loginUser.getType() + "\n"
+                            + " timeSlots: " + loginUser.getTimeSlot() + "\n"
+                            + " courts: " + loginUser.getPreferredCourt());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Calls court associated method that is corresponding to the button clicked
+    public void courtOptionHandler(String str) {
+        if (loginUser != null) {
+            if (str.equals("courtInfo")) {
+                statusMsg.setText("In " + court.getCourtName() + " : " + getUsersInCourt(court));
+                loginUserInfo.setText(loginUser.getUserName() + " is assigned in : " + getCourts());
+            }
+            if (str.equals("add")) {
+                addCourtToUser();
+            }
+            if (str.equals("remove")) {
+                removeCourtFromUser();
+            }
+        } else {
+            printErrMsg("Action Failed! No one is on the system");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Calls user's timeslot associated method that is corresponding to the button clicked. if no one login,
+    //          generate error msg and icon.
+    public void timeSlotOptionHandler(String str, int time) {
+        if (loginUser != null) {
+            if (str.equals("addTime")) {
+                addTimeSlotToUser(time);
+            }
+            if (str.equals("removeTime")) {
+                removeTimeSlotFromUser(time);
+            }
+        } else {
+            printErrMsg("Action Failed! No one is on the system");
+        }
+    }
+
+    // This code is referred to the JSonSerializationDemo example
     // MODIFIES: this
     // EFFECTS: loads from file
     private void loadData() {
@@ -353,8 +504,10 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             admin = jsonReaderAdmin.readAdmin();
             vancouver = admin.getLocation();
             statusMsg.setText("Loaded " + JSON_STORE);
+            loginUserInfo.setText("");
         } catch (IOException e) {
             statusMsg.setText("Unable to read from file: " + JSON_STORE);
+            loginUserInfo.setText("");
         }
     }
 
@@ -366,37 +519,23 @@ public class TennisMateGUI extends JFrame implements ActionListener {
             jsonWriter.write(admin);
             jsonWriter.close();
             statusMsg.setText("Saved " + JSON_STORE);
+            loginUserInfo.setText("");
         } catch (FileNotFoundException e) {
             statusMsg.setText("Unable to write to file: " + JSON_STORE);
+            loginUserInfo.setText("");
         }
     }
 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        court = vancouver.lookingUpCourtByName((String) courts.getSelectedItem());
-        if (e.getActionCommand() == "login") {
-            login(userNameF.getText());
-        }
-        if (e.getActionCommand() == "signUp") {
-            signUp(userNameF.getText());
-        }
-        if (e.getActionCommand() == "courtInfo") {
-            statusMsg.setText("users in " + court.getCourtName() + " : " + getUsersInCourt(court));
-        }
-        if (e.getActionCommand() == "add") {
-            addCourtToUser();
-        }
-        if (e.getActionCommand() == "remove") {
-            removeCourtFromUser();
-        }
-        if (e.getActionCommand() == "load") {
+    // MODIFIES: this
+    // EFFECTS: load the file or save the data
+    public void saveAndLoadHandler(String str) {
+        if (str.equals("load")) {
             loadData();
         }
-        if (e.getActionCommand() == "save") {
+        if (str.equals("save")) {
             saveData();
         }
     }
-
 }
 

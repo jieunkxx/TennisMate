@@ -15,7 +15,7 @@ public class Location {
 
     private String locationName;
     private Collection<Court> courts;
-    private Collection<User> users;
+    //private Collection<User> users;
 
 
     //EFFECTS: constructs location with its courtlist

@@ -13,12 +13,13 @@ Represents a User with id, preferred courts, time slots, level and status
 */
 
 public class User implements Writable {
+
+    protected Collection<Court> courts;   // user's preferred courts
     protected int id;                     // user's id
     protected String userName;            // user's name
     protected boolean status;             // user's status
     protected List<Integer> timeSlots;    // user's time slot
     protected String level;               // user's level
-    protected Collection<Court> courts;   // user's preferred courts
     protected String type;
 
     // REQUIRES: id is not taken by other user

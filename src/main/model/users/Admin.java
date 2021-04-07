@@ -15,7 +15,7 @@ Admin class stores all users information
 public class Admin implements Writable {
 
     int userId;
-    String userName;
+    //String userName;
     private Location location;
 
     private List<Integer> userIdList;

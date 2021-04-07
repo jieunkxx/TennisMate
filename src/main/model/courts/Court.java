@@ -10,8 +10,6 @@ Represents a court with its name and users
 public class Court {
     //public class Court implements Writable {
     private String courtName;               // court name
-    private Collection<User> players;     // list of players assigned to this court
-    private Collection<User> coaches;
     private Collection<User> users;     // list of players assigned to this court
 
     //REQUIRES: courtName has a non-zero length
@@ -31,7 +29,7 @@ public class Court {
     }
 
     public Collection<User> getPlayers() {
-        players = new HashSet<>();
+        Collection<User> players = new HashSet<>();
         for (User u : users) {
             if (u.getType().equalsIgnoreCase("player")) {
                 players.add(u);
@@ -41,7 +39,7 @@ public class Court {
     }
 
     public Collection<User> getCoaches() {
-        coaches = new HashSet<>();
+        Collection<User> coaches = new HashSet<>();
         for (User u : users) {
             if (u.getType().equalsIgnoreCase("coach")) {
                 coaches.add(u);
