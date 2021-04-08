@@ -57,6 +57,6 @@ This application aims to minimize the effort to find a right match based on user
 - Updated: 
     - generated printErrMsg method to reduce the duplicated code when print error message and error icon in TennisMateAppGUI
     - extracted methods to improve readability in TennisMateApp. ex) findUserFromUserList(), generateSortedUserListInSelectedTimeSlot() 
-    - move getCourtsByName in TennisGUI to Court to improve cohesion
+    - move getCourtsName in TennisGUI class to User class to improve cohesion
 
              

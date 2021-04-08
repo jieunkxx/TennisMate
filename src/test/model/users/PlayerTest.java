@@ -2,7 +2,6 @@ package model.users;
 
 
 import model.courts.Court;
-import model.users.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,8 +72,8 @@ class PlayerTest {
         courtsList.add("testCourt2");
         testPlayer.addPreferredCourt(testCourt1);
         testPlayer.addPreferredCourt(testCourt2);
-        assertEquals(2, testPlayer.getCourtsByName().size());
-        courtsList.equals(testPlayer.getCourtsByName());
+        assertEquals(2, testPlayer.getCourtsName().size());
+        courtsList.equals(testPlayer.getCourtsName());
     }
 
     @Test

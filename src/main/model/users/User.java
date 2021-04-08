@@ -59,7 +59,7 @@ public class User implements Writable {
     }
 
     // EFFECTS: return user's preferred court name
-    public Collection<String> getCourtsByName() {
+    public Collection<String> getCourtsName() {
         Collection<String> courtsList =  new TreeSet<String>(Collator.getInstance());
         for (Court c : this.getPreferredCourt()) {
             courtsList.add(c.getCourtName());

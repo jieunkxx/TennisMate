@@ -1,7 +1,6 @@
 package model.users;
 
 import model.courts.Court;
-import model.users.Coach;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,8 +73,8 @@ public class CoachTest {
         courtsList.add("testCourt2");
         testCoach.addPreferredCourt(testCourt1);
         testCoach.addPreferredCourt(testCourt2);
-        assertEquals(2, testCoach.getCourtsByName().size());
-        courtsList.equals(testCoach.getCourtsByName());
+        assertEquals(2, testCoach.getCourtsName().size());
+        courtsList.equals(testCoach.getCourtsName());
     }
 
     @Test
